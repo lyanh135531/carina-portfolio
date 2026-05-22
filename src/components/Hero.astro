@@ -14,4 +14,9 @@ const { title, image, variant = "page" } = Astro.props;
   <div class="hero__content reveal">
     <h1>{title}</h1>
   </div>
+  {
+    variant === "home" && (
+      <a class="hero__cta reveal" href="#tron-services">Our Campaigns</a>
+    )
+  }
 </section>

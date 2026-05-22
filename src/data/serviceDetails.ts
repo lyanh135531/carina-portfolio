@@ -72,6 +72,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     ],
     gallery: [
       image("/assets/tronhouse/service-commercial/chup-anh-concept-sang-tao-11-1-de0714cf60.png", "Ảnh concept sáng tạo", "Creative concept image"),
+      image("/assets/tronhouse/service-commercial/980398208253191-66eb891c20fd4-e52b29cb19.jpg", "Thiên hoa sắc nguyệt", "Mooncake campaign visual"),
       image("/assets/tronhouse/service-commercial/vuong-a7978c7ea4.gif", "Campaign visual động", "Animated campaign visual"),
       image("/assets/tronhouse/service-commercial/cleanser-final-archived-fb-f5e47451f8.jpg", "Ảnh sản phẩm cleanser", "Cleanser product image"),
       image("/assets/tronhouse/service-commercial/rsz-1th-white1-11fef30035.png", "Ảnh thương mại sản phẩm", "Commercial product image"),

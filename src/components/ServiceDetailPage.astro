@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "@/components/BaseLayout.astro";
 import type { Locale } from "@/data/site";
-import { getLocalizedPath } from "@/data/site";
 import type { ServiceDetail } from "@/data/serviceDetails";
 import { getServiceDetailPath } from "@/data/serviceDetails";
 
@@ -13,9 +12,46 @@ type Props = Readonly<{
 const { locale, detail } = Astro.props;
 const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
 const alternatePath = getServiceDetailPath(alternateLocale, detail);
-const servicesPath = getLocalizedPath(locale, "/tron-services");
 const pageTitle = `${detail.title[locale]} | TRÒN`;
-const backLabel = locale === "vi" ? "Quay lại Services" : "Back to Services";
+const isRetouchPage = detail.id === "digital-image-retouch";
+const isConsultingPage = detail.id === "integrated-marketing";
+const isTextPage = isRetouchPage || isConsultingPage;
+
+const retouchColumns = [
+  `TRÒN cung cấp trong gói dịch vụ chỉnh sửa hình ảnh chuyên nghiệp:
+Chỉnh sửa hậu kỳ ảnh sản phẩm
++ Hậu kỳ ảnh Ghost 3D Mannequin
++ Clipping Path
++ Tách nền
++ Cân chỉnh màu sắc
+- High-end Model Retouch
+- Key Visual Manipulation`,
+  `Here are the four types of photo retouching services TRÒN provide:
+- Ecommerce Product Photo Retouching Services
++ Invisible Ghost Mannequin Effect
++ Clipping Path
++ Background Removal
++ Color Correction
+- High-end Model Retouch
+- Key Visual Manipulation`,
+] as const;
+
+const consultingColumns = [
+  `Sau nhiều năm kinh nghiệm cung cấp giải pháp hình ảnh, video sáng tạo, làm việc với vô số khách hàng thuộc mọi lĩnh vực, ngành nghề, TRÒN sẽ giúp bạn tạo nên "Cá tính" riêng với dịch vụ BRAND STYLE GUIDE CONSULTANT SERVICE, bao gồm:
+
+1. Tìm hiểu thị trường, nhu cầu thị hiếu, kênh sử dụng, đối tượng khách hàng
+
+2. Lên ý tưởng và Xây dựng hình ảnh, cá tính riêng của thương hiệu dựa trên những phân đánh giá, tìm hiểu thị trường (từ màu sắc chủ đạo, màu sắc phối kèm, voice and tone, hình ảnh, videos, ...)
+
+3. Thực hiện và thực thi ý tưởng thành kết quả (chụp hình ảnh, video, thiết kế - design, manipulate, ...)`,
+  `After years of experience providing creative image and video solutions and working with countless clients across various industries, TRÒN is here to help you establish your unique "Personality" with our BRAND STYLE GUIDE CONSULTANT SERVICE, which includes:
+
+1. Market research, understanding consumer preferences, channel usage, and target audience.
+
+2. Ideation and crafting a brand's distinctive personality based on thorough market analysis (including primary color schemes, complementary colors, voice and tone, imagery, videos, etc.).
+
+3. Implementation and execution of ideas to produce tangible results (photography, video production, design, manipulation, etc.).`,
+] as const;
 ---
 
 <BaseLayout
@@ -25,43 +61,57 @@ const backLabel = locale === "vi" ? "Quay lại Services" : "Back to Services";
   description={detail.intro[locale]}
   alternatePath={alternatePath}
 >
-  <article class="service-detail">
-    <section class="service-detail__hero reveal">
-      <img src={detail.hero.src} alt={detail.hero.alt[locale]} />
-      <div class="service-detail__hero-copy">
-        <p>{detail.shortTitle[locale]}</p>
-        <h1>{detail.title[locale]}</h1>
-      </div>
-    </section>
-
-    <section class="service-detail__intro reveal">
-      <p>{detail.intro[locale]}</p>
-      <a href={servicesPath}>{backLabel}</a>
-    </section>
-
-    <section class="service-detail__copy">
-      {
-        detail.sections.map((item) => (
-          <section class="service-detail__section reveal">
-            <h2>{item.title[locale]}</h2>
-            <p>{item.body[locale]}</p>
+  <article
+    class:list={[
+      "service-detail",
+      isTextPage && "service-detail--text",
+      isRetouchPage && "service-detail--retouch",
+      isConsultingPage && "service-detail--consulting",
+    ]}
+  >
+    {
+      isRetouchPage ? (
+        <>
+          <h1 class="service-detail__text-title reveal">{detail.title[locale]}</h1>
+          <section class="service-detail__text-columns reveal">
+            {retouchColumns.map((column) => <p>{column}</p>)}
           </section>
-        ))
-      }
-    </section>
-
-    <section class="service-detail__notes reveal">
-      {detail.localeContent[locale].map((paragraph) => <p>{paragraph}</p>)}
-    </section>
-
-    <section class="service-detail__gallery reveal">
-      {
-        detail.gallery.map((asset) => (
-          <figure>
-            <img src={asset.src} alt={asset.alt[locale]} loading="lazy" />
-          </figure>
-        ))
-      }
-    </section>
+          <section class="service-detail__text-gallery reveal">
+            {detail.gallery.map((asset) => (
+              <figure>
+                <img src={asset.src} alt={asset.alt[locale]} loading="lazy" />
+              </figure>
+            ))}
+          </section>
+        </>
+      ) : isConsultingPage ? (
+        <>
+          <section class="service-detail__cover reveal">
+            <img src={detail.hero.src} alt={detail.hero.alt[locale]} />
+          </section>
+          <p class="service-detail__eyebrow reveal">Consulting by TRÒN</p>
+          <h1 class="service-detail__text-title service-detail__text-title--consulting reveal">
+            Brand Style Guide Consultant Service
+          </h1>
+          <section class="service-detail__text-columns reveal">
+            {consultingColumns.map((column) => <p>{column}</p>)}
+          </section>
+        </>
+      ) : (
+        <>
+          <section class="service-detail__cover reveal">
+            <img src={detail.hero.src} alt={detail.hero.alt[locale]} />
+          </section>
+          <h1 class="service-detail__title reveal">{detail.title[locale]}</h1>
+          <section class="service-detail__gallery reveal">
+            {detail.gallery.map((asset) => (
+              <figure>
+                <img src={asset.src} alt={asset.alt[locale]} loading="lazy" />
+              </figure>
+            ))}
+          </section>
+        </>
+      )
+    }
   </article>
 </BaseLayout>
