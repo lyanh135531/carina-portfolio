@@ -86,6 +86,23 @@ const createBrowser = async () => {
   }
 };
 
+const gotoWithRetry = async (page, url) => {
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+      return;
+    } catch (error) {
+      lastError = error;
+      console.warn(`Navigation failed (${attempt}/3): ${url}`);
+      await sleep(attempt * 1200);
+    }
+  }
+
+  throw lastError ?? new Error(`Navigation failed: ${url}`);
+};
+
 const dismissSourceWidgets = async (page) => {
   await page.addStyleTag({
     content: `
@@ -125,7 +142,7 @@ const capturePage = async (browser, pageConfig, viewport) => {
   const screenshotPage = await screenshotContext.newPage();
   const url = target === "source" ? getSourceUrl(pageConfig) : getLocalUrl(pageConfig, "vi");
 
-  await screenshotPage.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+  await gotoWithRetry(screenshotPage, url);
 
   if (target === "source") {
     await dismissSourceWidgets(screenshotPage);
@@ -145,7 +162,7 @@ const capturePage = async (browser, pageConfig, viewport) => {
   });
   const page = await videoContext.newPage();
 
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+  await gotoWithRetry(page, url);
 
   if (target === "source") {
     await dismissSourceWidgets(page);
@@ -167,8 +184,10 @@ const capture = async () => {
   const results = [];
 
   try {
+    const pagesForTarget = target === "source" ? qaPages.filter((pageConfig) => pageConfig.sourcePath) : qaPages;
+
     for (const viewport of viewports) {
-      for (const pageConfig of qaPages) {
+      for (const pageConfig of pagesForTarget) {
         const result = await capturePage(browser, pageConfig, viewport);
         results.push({ viewport: viewport.id, page: pageConfig.id, ...result });
         console.log(`${target}:${viewport.id}:${pageConfig.id}`);

@@ -10,14 +10,26 @@ export type NavItem = Readonly<{
   path: string;
 }>;
 
+export type ServiceId =
+  | "commercial"
+  | "fashion"
+  | "creative-design"
+  | "commercial-videography"
+  | "catalogue-ecommerce"
+  | "digital-image-retouch"
+  | "integrated-marketing"
+  | "animation";
+
 export type ImageAsset = Readonly<{
   src: string;
   alt: LocalizedText;
 }>;
 
 export type ServiceItem = Readonly<{
+  id: ServiceId;
   title: LocalizedText;
   image: ImageAsset;
+  href: string;
   disabled?: true;
 }>;
 
@@ -158,52 +170,66 @@ export const assets = {
 
 export const services: readonly ServiceItem[] = [
   {
+    id: "commercial",
     title: { vi: "Commercial", en: "Commercial" },
+    href: "/commercial-campaign",
     image: {
       src: "/assets/tronhouse/home/dich-vu-commercial-800-1068-px-1-4a802baadb.gif",
       alt: { vi: "Commercial campaign", en: "Commercial campaign" },
     },
   },
   {
+    id: "fashion",
     title: { vi: "Fashion", en: "Fashion" },
+    href: "/fashion-campaign",
     image: {
       src: "/assets/tronhouse/home/dv-fashion-b8310eec39.gif",
       alt: { vi: "Fashion campaign", en: "Fashion campaign" },
     },
   },
   {
+    id: "creative-design",
     title: { vi: "Creative Design", en: "Creative Design" },
+    href: "/creative-concept",
     image: {
       src: "/assets/tronhouse/home/dich-vu-creative-800-1068-px-c2c63ea8e1.gif",
       alt: { vi: "Creative design", en: "Creative design" },
     },
   },
   {
+    id: "commercial-videography",
     title: { vi: "Commercial Videography", en: "Commercial Videography" },
+    href: "/tvc-videography-film",
     image: {
       src: "/assets/tronhouse/home/dv-video-final-4e151314e6.gif",
       alt: { vi: "Commercial videography", en: "Commercial videography" },
     },
   },
   {
+    id: "catalogue-ecommerce",
     title: { vi: "Catalogue Ecommerce", en: "Catalogue Ecommerce" },
+    href: "/catalogue-ecommerce",
     image: {
       src: "/assets/tronhouse/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
       alt: { vi: "Catalogue ecommerce", en: "Catalogue ecommerce" },
     },
   },
   {
+    id: "digital-image-retouch",
     title: { vi: "Digital Image Retouch", en: "Digital Image Retouch" },
+    href: "/digital-image-retouch",
     image: {
       src: "/assets/tronhouse/home/dich-vu-di-800-1068-px-1-c55ae648b0.gif",
       alt: { vi: "Digital image retouch", en: "Digital image retouch" },
     },
   },
   {
+    id: "integrated-marketing",
     title: {
       vi: "Integrated Marketing Communication",
       en: "Integrated Marketing Communication",
     },
+    href: "/IMC",
     image: {
       src: "/assets/tronhouse/home/brand1-c2f5e204b6.gif",
       alt: {
@@ -213,7 +239,9 @@ export const services: readonly ServiceItem[] = [
     },
   },
   {
+    id: "animation",
     title: { vi: "2D - 3D Animation Videography", en: "2D - 3D Animation Videography" },
+    href: "/2D-3D-animation-cgi",
     image: {
       src: "/assets/tronhouse/home/dich-vu-2d-3d-1-1c563cb859.gif",
       alt: { vi: "2D and 3D animation", en: "2D and 3D animation" },

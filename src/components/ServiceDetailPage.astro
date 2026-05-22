@@ -1,0 +1,67 @@
+---
+import BaseLayout from "@/components/BaseLayout.astro";
+import type { Locale } from "@/data/site";
+import { getLocalizedPath } from "@/data/site";
+import type { ServiceDetail } from "@/data/serviceDetails";
+import { getServiceDetailPath } from "@/data/serviceDetails";
+
+type Props = Readonly<{
+  locale: Locale;
+  detail: ServiceDetail;
+}>;
+
+const { locale, detail } = Astro.props;
+const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
+const alternatePath = getServiceDetailPath(alternateLocale, detail);
+const servicesPath = getLocalizedPath(locale, "/tron-services");
+const pageTitle = `${detail.title[locale]} | TRÒN`;
+const backLabel = locale === "vi" ? "Quay lại Services" : "Back to Services";
+---
+
+<BaseLayout
+  locale={locale}
+  pageId="services"
+  title={pageTitle}
+  description={detail.intro[locale]}
+  alternatePath={alternatePath}
+>
+  <article class="service-detail">
+    <section class="service-detail__hero reveal">
+      <img src={detail.hero.src} alt={detail.hero.alt[locale]} />
+      <div class="service-detail__hero-copy">
+        <p>{detail.shortTitle[locale]}</p>
+        <h1>{detail.title[locale]}</h1>
+      </div>
+    </section>
+
+    <section class="service-detail__intro reveal">
+      <p>{detail.intro[locale]}</p>
+      <a href={servicesPath}>{backLabel}</a>
+    </section>
+
+    <section class="service-detail__copy">
+      {
+        detail.sections.map((item) => (
+          <section class="service-detail__section reveal">
+            <h2>{item.title[locale]}</h2>
+            <p>{item.body[locale]}</p>
+          </section>
+        ))
+      }
+    </section>
+
+    <section class="service-detail__notes reveal">
+      {detail.localeContent[locale].map((paragraph) => <p>{paragraph}</p>)}
+    </section>
+
+    <section class="service-detail__gallery reveal">
+      {
+        detail.gallery.map((asset) => (
+          <figure>
+            <img src={asset.src} alt={asset.alt[locale]} loading="lazy" />
+          </figure>
+        ))
+      }
+    </section>
+  </article>
+</BaseLayout>

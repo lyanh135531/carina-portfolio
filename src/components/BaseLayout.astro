@@ -7,10 +7,15 @@ import { pageMeta } from "@/data/site";
 type Props = Readonly<{
   locale: Locale;
   pageId: PageId;
+  title?: string;
+  description?: string;
+  alternatePath?: string;
 }>;
 
-const { locale, pageId } = Astro.props;
+const { locale, pageId, title, description, alternatePath } = Astro.props;
 const meta = pageMeta[pageId];
+const documentTitle = title ?? meta.title[locale];
+const documentDescription = description ?? "Private learning clone of the TRÒN portfolio interface.";
 ---
 
 <!doctype html>
@@ -20,9 +25,9 @@ const meta = pageMeta[pageId];
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Private learning clone of the TRÒN portfolio interface."
+      content={documentDescription}
     />
-    <title>{meta.title[locale]}</title>
+    <title>{documentTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -31,7 +36,7 @@ const meta = pageMeta[pageId];
     />
   </head>
   <body data-page={pageId}>
-    <Header locale={locale} pageId={pageId} />
+    <Header locale={locale} pageId={pageId} alternatePath={alternatePath} />
     <main>
       <slot />
     </main>

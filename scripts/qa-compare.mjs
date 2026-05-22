@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import pixelmatch from "pixelmatch";
 import { PNG } from "pngjs";
@@ -6,11 +6,58 @@ import { qaOutputRoot, qaPages, viewports } from "./qa-config.mjs";
 
 const readPng = async (filePath) => PNG.sync.read(await readFile(filePath));
 
+const fileExists = async (filePath) => {
+  try {
+    await access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 const comparePair = async (pageConfig, viewport) => {
   const sourcePath = path.join(qaOutputRoot, "source", viewport.id, `${pageConfig.id}.png`);
   const localPath = path.join(qaOutputRoot, "local", viewport.id, `${pageConfig.id}.png`);
   const diffDir = path.join(qaOutputRoot, "compare", viewport.id);
   const diffPath = path.join(diffDir, `${pageConfig.id}.png`);
+
+  if (!pageConfig.sourcePath) {
+    if (!(await fileExists(localPath))) {
+      return {
+        page: pageConfig.id,
+        viewport: viewport.id,
+        status: "local-only-missing",
+        sourceSize: "-",
+        localSize: "-",
+        mismatchRatio: null,
+        diffPath: "",
+      };
+    }
+
+    const local = await readPng(localPath);
+
+    return {
+      page: pageConfig.id,
+      viewport: viewport.id,
+      status: "local-only",
+      sourceSize: "-",
+      localSize: `${local.width}x${local.height}`,
+      mismatchRatio: null,
+      diffPath: "",
+    };
+  }
+
+  if (!(await fileExists(sourcePath)) || !(await fileExists(localPath))) {
+    return {
+      page: pageConfig.id,
+      viewport: viewport.id,
+      status: "missing",
+      sourceSize: (await fileExists(sourcePath)) ? "present" : "missing",
+      localSize: (await fileExists(localPath)) ? "present" : "missing",
+      mismatchRatio: null,
+      diffPath: "",
+    };
+  }
 
   const source = await readPng(sourcePath);
   const local = await readPng(localPath);
@@ -72,6 +119,7 @@ const compare = async () => {
     "",
     "Reference screenshots are captured from `https://tronhouse.com`; local screenshots are captured from the Astro dev server.",
     "Source-only contact widgets are hidden during source capture because local scope intentionally excludes Contact/Zalo/WhatsApp widgets.",
+    "Local-only rows are intentional pages without a comparable `tronhouse.com` source page in this phase.",
     "",
     "| Viewport | Page | Status | Diff | Source | Local |",
     "| --- | --- | --- | ---: | --- | --- |",

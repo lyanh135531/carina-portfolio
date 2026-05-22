@@ -5,11 +5,12 @@ import { defaultLocale, getLocalizedPath, navigationItems, routeByPageId } from 
 type Props = Readonly<{
   locale: Locale;
   pageId: PageId;
+  alternatePath?: string;
 }>;
 
-const { locale, pageId } = Astro.props;
+const { locale, pageId, alternatePath } = Astro.props;
 const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
-const alternatePath = getLocalizedPath(alternateLocale, routeByPageId[pageId]);
+const resolvedAlternatePath = alternatePath ?? getLocalizedPath(alternateLocale, routeByPageId[pageId]);
 ---
 
 <header class="site-header" data-header>
@@ -31,6 +32,6 @@ const alternatePath = getLocalizedPath(alternateLocale, routeByPageId[pageId]);
         </a>
       ))
     }
-    <a class="site-header__language" href={alternatePath}>{alternateLocale.toUpperCase()}</a>
+    <a class="site-header__language" href={resolvedAlternatePath}>{alternateLocale.toUpperCase()}</a>
   </nav>
 </header>

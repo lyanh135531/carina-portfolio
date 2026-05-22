@@ -9,6 +9,13 @@ const manifestPath = path.resolve("src/data/tronhouseAssetManifest.json");
 const pages = [
   { name: "home", url: "https://tronhouse.com/" },
   { name: "services", url: "https://tronhouse.com/tron-services" },
+  { name: "service-commercial", url: "https://tronhouse.com/commercial-campaign" },
+  { name: "service-fashion", url: "https://tronhouse.com/fashion-campaign" },
+  { name: "service-creative-concept", url: "https://tronhouse.com/creative-concept" },
+  { name: "service-videography", url: "https://tronhouse.com/tvc-videography-film" },
+  { name: "service-retouch", url: "https://tronhouse.com/digital-image-retouch" },
+  { name: "service-imc", url: "https://tronhouse.com/IMC" },
+  { name: "service-animation", url: "https://tronhouse.com/2D-3D-animation-cgi" },
   { name: "about", url: "https://tronhouse.com/about-tron" },
   { name: "credential", url: "https://tronhouse.com/tron-credential" },
   { name: "blog", url: "https://tronhouse.com/blog" },
