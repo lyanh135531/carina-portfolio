@@ -49,6 +49,7 @@ const page = pageMeta[pageId];
     pageId === "services" && (
       <>
         <Hero title={page.title[locale]} image={assets.serviceHero} variant="page" />
+        <h1 class="mobile-page-title">{page.mobileTitle[locale]}</h1>
         <section class="content-section content-section--tight">
           <CardGrid items={services} locale={locale} variant="service" />
         </section>
@@ -89,10 +90,10 @@ const page = pageMeta[pageId];
   {
     pageId === "credential" && (
       <>
-        <section class="page-heading reveal">
+        <section class="page-heading page-heading--credential reveal">
           <h1>{page.title[locale]}</h1>
         </section>
-        <section class="content-section content-section--tight">
+        <section class="content-section content-section--credential-list">
           <CardGrid items={credentials} locale={locale} variant="credential" />
         </section>
       </>
@@ -103,7 +104,8 @@ const page = pageMeta[pageId];
     pageId === "blog" && (
       <>
         <Hero title={page.title[locale]} image={assets.cosmicHero} variant="compact" />
-        <section class="content-section">
+        <h1 class="mobile-page-title">{page.mobileTitle[locale]}</h1>
+        <section class="content-section content-section--blog-list">
           <CardGrid items={blogPosts} locale={locale} variant="blog" />
         </section>
       </>

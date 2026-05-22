@@ -6,6 +6,7 @@ type CardItem = Readonly<{
   image: ImageAsset;
   date?: string;
   excerpt?: LocalizedText;
+  disabled?: true;
 }>;
 
 type Props = Readonly<{
@@ -20,7 +21,7 @@ const { items, locale, variant } = Astro.props;
 <div class:list={["card-grid", `card-grid--${variant}`, "reveal"]}>
   {
     items.map((item) => (
-      <article class:list={["media-card", `media-card--${variant}`]} aria-disabled="true">
+      <article class:list={["media-card", `media-card--${variant}`, item.disabled && "is-disabled"]} aria-disabled="true">
         <div class="media-card__image">
           <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" />
           <span class="media-card__shine"></span>

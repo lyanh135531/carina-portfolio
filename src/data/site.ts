@@ -18,6 +18,7 @@ export type ImageAsset = Readonly<{
 export type ServiceItem = Readonly<{
   title: LocalizedText;
   image: ImageAsset;
+  disabled?: true;
 }>;
 
 export type BlogPost = Readonly<{
@@ -25,11 +26,13 @@ export type BlogPost = Readonly<{
   title: LocalizedText;
   excerpt: LocalizedText;
   image: ImageAsset;
+  disabled?: true;
 }>;
 
 export type CredentialItem = Readonly<{
   title: LocalizedText;
   image: ImageAsset;
+  disabled?: true;
 }>;
 
 export type AboutBlock = Readonly<{
@@ -40,6 +43,7 @@ export type AboutBlock = Readonly<{
 
 export type PageMeta = Readonly<{
   title: LocalizedText;
+  mobileTitle: LocalizedText;
   kicker: LocalizedText;
 }>;
 
@@ -107,6 +111,10 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
       vi: "Tròn Agency - Creative Solution For Businesses",
       en: "Tròn Agency - Creative Solution For Businesses",
     },
+    mobileTitle: {
+      vi: "Tròn Agency - Creative Solution For Businesses",
+      en: "Tròn Agency - Creative Solution For Businesses",
+    },
     kicker: {
       vi: "Creative In You",
       en: "Creative In You",
@@ -114,22 +122,27 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
   },
   services: {
     title: { vi: "Tròn Service", en: "Tròn Service" },
+    mobileTitle: { vi: "Dịch Vụ Tròn House", en: "Tròn Service" },
     kicker: { vi: "Dịch vụ sáng tạo", en: "Creative Services" },
   },
   about: {
     title: { vi: "About Us", en: "About Us" },
+    mobileTitle: { vi: "About Us", en: "About Us" },
     kicker: { vi: "Dare To Breakthrough", en: "Dare To Breakthrough" },
   },
   credential: {
-    title: { vi: "Our Credential", en: "Our Credential" },
+    title: { vi: "Our Projects", en: "Our Projects" },
+    mobileTitle: { vi: "Our Projects", en: "Our Projects" },
     kicker: { vi: "Selected Credentials", en: "Selected Credentials" },
   },
   blog: {
     title: { vi: "Blog", en: "Blog" },
+    mobileTitle: { vi: "Blog", en: "Blog" },
     kicker: { vi: "Creative In You", en: "Creative In You" },
   },
   contact: {
     title: { vi: "Contact", en: "Contact" },
+    mobileTitle: { vi: "Contact", en: "Contact" },
     kicker: { vi: "Contact Tròn", en: "Contact Tròn" },
   },
 };
@@ -310,6 +323,20 @@ export const credentials: readonly CredentialItem[] = [
     },
   },
   {
+    title: { vi: "Amazon", en: "Amazon" },
+    image: {
+      src: "/assets/tronhouse/credential/thumbnail-amazon-0f7d8e2744.gif",
+      alt: { vi: "Amazon credential", en: "Amazon credential" },
+    },
+  },
+  {
+    title: { vi: "Homeliving Interior", en: "Homeliving Interior" },
+    image: {
+      src: "/assets/tronhouse/credential/thumbnail-homeliving-e741324341.gif",
+      alt: { vi: "Homeliving interior credential", en: "Homeliving interior credential" },
+    },
+  },
+  {
     title: { vi: "Fashion Credential", en: "Fashion Credential" },
     image: {
       src: "/assets/tronhouse/credential/thumbnail-fashion-c425885c21.png",
@@ -342,6 +369,13 @@ export const credentials: readonly CredentialItem[] = [
     image: {
       src: "/assets/tronhouse/credential/thumbnail-sportwear-03c8ceb490.png",
       alt: { vi: "Sportwear credential", en: "Sportwear credential" },
+    },
+  },
+  {
+    title: { vi: "Kids", en: "Kids" },
+    image: {
+      src: "/assets/tronhouse/credential/thumbnail-kids-8ac5d7ae27.png",
+      alt: { vi: "Kids credential", en: "Kids credential" },
     },
   },
   {

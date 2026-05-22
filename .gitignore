@@ -5,6 +5,7 @@ dist/
 .env
 .env.*
 .codex-screens/
+.qa/
 .astro-dev*.log
 npm-debug.log*
 yarn-debug.log*

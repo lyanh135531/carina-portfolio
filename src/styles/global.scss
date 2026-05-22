@@ -57,7 +57,7 @@ button {
   display: flex;
   align-items: center;
   min-height: var(--header-height);
-  padding: 0 5vw;
+  padding: 0 4.8vw;
   background: rgba(0, 0, 0, 0.82);
   transition:
     background 220ms ease,
@@ -71,7 +71,7 @@ button {
 }
 
 .site-header__logo {
-  width: 54px;
+  width: 52px;
   flex: 0 0 auto;
 }
 
@@ -83,7 +83,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.5rem, 4vw, 4.4rem);
+  gap: clamp(1.6rem, 3.9vw, 4.1rem);
   width: 100%;
   padding-left: 7vw;
 }
@@ -138,7 +138,7 @@ button {
 .hero {
   position: relative;
   display: grid;
-  height: clamp(500px, 43vw, 680px);
+  height: clamp(500px, 42.6vw, 680px);
   place-items: center;
   overflow: hidden;
   background: var(--color-black);
@@ -163,15 +163,15 @@ button {
 }
 
 .hero--home .hero__image {
-  object-position: 55% center;
+  object-position: 53% center;
 }
 
 .hero__scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.55)),
-    radial-gradient(circle at center, transparent 24%, rgba(0, 0, 0, 0.42) 72%);
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.48)),
+    radial-gradient(circle at center, transparent 28%, rgba(0, 0, 0, 0.34) 74%);
 }
 
 .hero__content {
@@ -192,10 +192,19 @@ button {
 }
 
 .hero--page .hero__content h1 {
-  font-size: clamp(2.3rem, 4.5vw, 4.2rem);
+  color: rgba(255, 241, 0, 0.92);
+  font-size: clamp(2.2rem, 3.9vw, 3.3rem);
+}
+
+.hero--compact .hero__content h1 {
+  font-size: clamp(2.2rem, 3.6vw, 3.2rem);
 }
 
 .hero--home .hero__content {
+  display: none;
+}
+
+.mobile-page-title {
   display: none;
 }
 
@@ -222,12 +231,25 @@ button {
     var(--color-black);
 }
 
+.page-heading--credential {
+  min-height: 190px;
+  padding: calc(var(--header-height) + 2rem) 5vw 1.4rem;
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
 .page-heading h1 {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.7rem);
   font-weight: 400;
   letter-spacing: 0;
+}
+
+.page-heading--credential h1 {
+  color: var(--color-white);
+  font-size: clamp(1.7rem, 2.2vw, 2.2rem);
+  font-weight: 700;
 }
 
 .page-heading p {
@@ -257,6 +279,18 @@ button {
   margin-left: auto;
 }
 
+.content-section--credential-list {
+  width: 100%;
+  max-width: none;
+  padding: 0 clamp(1.8rem, 2.1vw, 2.2rem) clamp(4rem, 5vw, 5.6rem);
+}
+
+.content-section--blog-list {
+  width: 100%;
+  max-width: none;
+  padding: clamp(4rem, 6vw, 5rem) clamp(1.2rem, 1.4vw, 1.8rem);
+}
+
 .section-title {
   margin-bottom: clamp(2.2rem, 4vw, 4rem);
   text-align: center;
@@ -284,9 +318,12 @@ button {
   gap: clamp(1.5rem, 2.2vw, 2rem);
 }
 
-.card-grid--service,
-.card-grid--credential {
+.card-grid--service {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card-grid--credential {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .card-grid--blog {
@@ -321,13 +358,21 @@ button {
   background: var(--color-panel);
 }
 
-.media-card--service .media-card__image,
-.media-card--credential .media-card__image {
+.media-card--service .media-card__image {
   aspect-ratio: 4 / 5;
 }
 
+.media-card--credential .media-card__image {
+  aspect-ratio: 1.92 / 1;
+}
+
 .media-card--blog .media-card__image {
-  aspect-ratio: 1.55 / 1;
+  aspect-ratio: 1.63 / 1;
+}
+
+.media-card--blog {
+  overflow: visible;
+  background: transparent;
 }
 
 .media-card__image img {
@@ -385,6 +430,20 @@ button {
   font-weight: 700;
 }
 
+.media-card--blog time {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.86rem;
+}
+
+.media-card--blog .media-card__body {
+  padding: 1.45rem 0 0;
+}
+
 .media-card h3 {
   margin: 0;
   color: var(--color-white);
@@ -397,6 +456,13 @@ button {
 
 .media-card--blog h3 {
   color: var(--color-yellow);
+  font-size: clamp(1.05rem, 1.55vw, 1.45rem);
+  line-height: 1.38;
+}
+
+.media-card--credential h3 {
+  font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+  font-weight: 400;
 }
 
 .media-card p {
@@ -521,7 +587,7 @@ button {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   :root {
     --header-height: 68px;
   }
@@ -537,13 +603,19 @@ button {
   .site-header__toggle {
     display: block !important;
     position: fixed;
-    top: 12px;
-    right: 1.2rem;
+    top: 13px;
+    right: 1.25rem;
     visibility: visible;
-    border-width: 2px;
+    border-width: 0;
     opacity: 1;
-    background: rgba(0, 0, 0, 0.62);
-    box-shadow: 0 0 16px rgba(255, 241, 0, 0.32);
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-header__toggle span {
+    width: 24px;
+    height: 3px;
+    margin: 5px auto;
   }
 
   .site-header__nav {
@@ -580,6 +652,15 @@ button {
     min-height: 100svh;
   }
 
+  .hero--page,
+  .hero--compact {
+    height: clamp(152px, 39vw, 300px);
+  }
+
+  .hero--compact {
+    height: clamp(152px, 45vw, 350px);
+  }
+
   .hero__image {
     inset: 0;
     width: 100%;
@@ -587,21 +668,57 @@ button {
   }
 
   .hero--home .hero__image {
-    object-position: 56% center;
+    object-position: 53% center;
   }
 
   .hero__content h1 {
     font-size: clamp(2.5rem, 13vw, 4rem);
   }
 
+  .hero--page .hero__content,
+  .hero--compact .hero__content {
+    display: none;
+  }
+
+  .mobile-page-title {
+    display: block;
+    margin: 0;
+    padding: 1.35rem 1.2rem 1.25rem;
+    background: var(--color-black);
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 6vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.22;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
   .content-section {
     padding: 3.2rem 1.2rem;
   }
 
+  .mobile-page-title + .content-section {
+    padding-top: 0.7rem;
+  }
+
+  .content-section--blog-list,
+  .content-section--credential-list {
+    padding-right: 1.2rem;
+    padding-left: 1.2rem;
+  }
+
+  .page-heading--credential {
+    min-height: 160px;
+  }
+
   .card-grid--service,
-  .card-grid--credential,
-  .card-grid--blog {
+  .card-grid--credential {
     grid-template-columns: 1fr;
+  }
+
+  .card-grid--blog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-page {
@@ -614,5 +731,16 @@ button {
 
   .client-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .hero--page,
+  .hero--compact {
+    height: 152px;
+  }
+
+  .card-grid--blog {
+    grid-template-columns: 1fr;
   }
 }
