@@ -1,0 +1,46 @@
+---
+import Header from "@/components/Header.astro";
+import "@/styles/global.scss";
+import type { Locale, PageId } from "@/data/site";
+import { pageMeta } from "@/data/site";
+
+type Props = Readonly<{
+  locale: Locale;
+  pageId: PageId;
+}>;
+
+const { locale, pageId } = Astro.props;
+const meta = pageMeta[pageId];
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Private learning clone of the TRÒN portfolio interface."
+    />
+    <title>{meta.title[locale]}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body data-page={pageId}>
+    <Header locale={locale} pageId={pageId} />
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer reveal">
+      <img src="/assets/tronhouse/home/logo-new-fb20d29dba.png" alt="TRÒN" />
+      <p>TRÒN - Creative Solution For Businesses</p>
+    </footer>
+    <script>
+      import "@/scripts/animations";
+    </script>
+  </body>
+</html>

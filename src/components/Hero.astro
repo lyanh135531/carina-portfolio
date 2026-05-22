@@ -1,0 +1,17 @@
+---
+type Props = Readonly<{
+  title: string;
+  image: string;
+  variant?: "home" | "page" | "compact";
+}>;
+
+const { title, image, variant = "page" } = Astro.props;
+---
+
+<section class:list={["hero", `hero--${variant}`]} data-hero>
+  <img class="hero__image" src={image} alt="" loading="eager" data-hero-image />
+  <div class="hero__scrim"></div>
+  <div class="hero__content reveal">
+    <h1>{title}</h1>
+  </div>
+</section>

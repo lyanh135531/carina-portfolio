@@ -1,0 +1,123 @@
+---
+import BaseLayout from "@/components/BaseLayout.astro";
+import CardGrid from "@/components/CardGrid.astro";
+import Hero from "@/components/Hero.astro";
+import SectionTitle from "@/components/SectionTitle.astro";
+import type { Locale, PageId } from "@/data/site";
+import {
+  aboutBlocks,
+  assets,
+  blogPosts,
+  clientLogos,
+  credentials,
+  pageMeta,
+  services,
+} from "@/data/site";
+
+type Props = Readonly<{
+  locale: Locale;
+  pageId: PageId;
+}>;
+
+const { locale, pageId } = Astro.props;
+const page = pageMeta[pageId];
+---
+
+<BaseLayout locale={locale} pageId={pageId}>
+  {
+    pageId === "home" && (
+      <>
+        <Hero title="" image={assets.cosmicHero} variant="home" />
+        <section class="content-section content-section--tight">
+          <SectionTitle title="TRÒN SERVICES" eyebrow={page.kicker[locale]} />
+          <CardGrid items={services.slice(0, 8)} locale={locale} variant="service" />
+        </section>
+        <section class="content-section content-section--band">
+          <SectionTitle title="TRÒN BLOG" />
+          <CardGrid items={blogPosts.slice(0, 3)} locale={locale} variant="blog" />
+        </section>
+        <section class="content-section client-strip reveal">
+          {clientLogos.map((logo) => (
+            <img src={logo.src} alt={logo.alt[locale]} loading="lazy" />
+          ))}
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageId === "services" && (
+      <>
+        <Hero title={page.title[locale]} image={assets.serviceHero} variant="page" />
+        <section class="content-section content-section--tight">
+          <CardGrid items={services} locale={locale} variant="service" />
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageId === "about" && (
+      <>
+        <section class="page-heading page-heading--plain reveal">
+          <h1>{page.title[locale]}</h1>
+        </section>
+        <section class="about-page">
+          <p class="about-page__quote reveal">"DARE TO BREAKTHROUGH"</p>
+          {aboutBlocks.map((block) => (
+            <section class="about-block reveal">
+              <h2>{block.eyebrow[locale]}</h2>
+              <div class="about-block__columns">
+                <div>
+                  {block.vi.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+                <div>
+                  {block.en.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ))}
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageId === "credential" && (
+      <>
+        <section class="page-heading reveal">
+          <h1>{page.title[locale]}</h1>
+        </section>
+        <section class="content-section content-section--tight">
+          <CardGrid items={credentials} locale={locale} variant="credential" />
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageId === "blog" && (
+      <>
+        <Hero title={page.title[locale]} image={assets.cosmicHero} variant="compact" />
+        <section class="content-section">
+          <CardGrid items={blogPosts} locale={locale} variant="blog" />
+        </section>
+      </>
+    )
+  }
+
+  {
+    pageId === "contact" && (
+      <>
+        <section class="page-heading page-heading--contact reveal">
+          <h1>{page.title[locale]}</h1>
+          <p>{page.kicker[locale]}</p>
+        </section>
+      </>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import type { ImageAsset, Locale, LocalizedText } from "@/data/site";
+
+type CardItem = Readonly<{
+  title: LocalizedText;
+  image: ImageAsset;
+  date?: string;
+  excerpt?: LocalizedText;
+}>;
+
+type Props = Readonly<{
+  items: readonly CardItem[];
+  locale: Locale;
+  variant: "service" | "blog" | "credential";
+}>;
+
+const { items, locale, variant } = Astro.props;
+---
+
+<div class:list={["card-grid", `card-grid--${variant}`, "reveal"]}>
+  {
+    items.map((item) => (
+      <article class:list={["media-card", `media-card--${variant}`]} aria-disabled="true">
+        <div class="media-card__image">
+          <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" />
+          <span class="media-card__shine"></span>
+        </div>
+        <div class="media-card__body">
+          {item.date && <time>{item.date}</time>}
+          <h3>{item.title[locale]}</h3>
+          {item.excerpt && <p>{item.excerpt[locale]}</p>}
+          {variant === "blog" && <span class="media-card__arrow" aria-hidden="true">→</span>}
+        </div>
+      </article>
+    ))
+  }
+</div>

@@ -1,0 +1,36 @@
+---
+import type { Locale, PageId } from "@/data/site";
+import { defaultLocale, getLocalizedPath, navigationItems, routeByPageId } from "@/data/site";
+
+type Props = Readonly<{
+  locale: Locale;
+  pageId: PageId;
+}>;
+
+const { locale, pageId } = Astro.props;
+const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
+const alternatePath = getLocalizedPath(alternateLocale, routeByPageId[pageId]);
+---
+
+<header class="site-header" data-header>
+  <a class="site-header__logo" href={getLocalizedPath(defaultLocale, "/")} aria-label="TRÒN homepage">
+    <img src="/assets/tronhouse/home/logo-new-fb20d29dba.png" alt="TRÒN" />
+  </a>
+  <button class="site-header__toggle" type="button" aria-label="Open menu" data-menu-toggle>
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="site-header__nav" data-nav>
+    {
+      navigationItems.map((item) => (
+        <a
+          class:list={["site-header__link", item.pageId === pageId && "is-active"]}
+          href={getLocalizedPath(locale, item.path)}
+        >
+          {item.label[locale]}
+        </a>
+      ))
+    }
+    <a class="site-header__language" href={alternatePath}>{alternateLocale.toUpperCase()}</a>
+  </nav>
+</header>
