@@ -66,33 +66,18 @@ export const locales: readonly Locale[] = ["vi", "en"];
 export const navigationItems: readonly NavItem[] = [
   {
     pageId: "home",
-    label: { vi: "Homepage", en: "Homepage" },
+    label: { vi: "Tổng quát", en: "Overview" },
     path: "/",
   },
   {
     pageId: "services",
-    label: { vi: "Our Services", en: "Our Services" },
+    label: { vi: "Portfolio", en: "Portfolio" },
     path: "/tron-services",
   },
   {
     pageId: "about",
-    label: { vi: "About TRÒN", en: "About TRÒN" },
+    label: { vi: "Freelancer", en: "Freelancer" },
     path: "/about-tron",
-  },
-  {
-    pageId: "credential",
-    label: { vi: "Our Credential", en: "Our Credential" },
-    path: "/tron-credential",
-  },
-  {
-    pageId: "blog",
-    label: { vi: "Blog", en: "Blog" },
-    path: "/blog",
-  },
-  {
-    pageId: "contact",
-    label: { vi: "Contact", en: "Contact" },
-    path: "/contact",
   },
 ];
 
@@ -160,7 +145,7 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
 };
 
 export const assets = {
-  logo: "/assets/tronhouse/home/logo-new-fb20d29dba.png",
+  logo: "/assets/tronhouse/home/logo.jpg",
   orbitLogo: "/assets/tronhouse/home/render-final-yellow-square-1-1dca030dd7.gif",
   cosmicHero: "/assets/tronhouse/home/anh-nen-cover-b32bbfbf9e.jpg",
   serviceHero: "/assets/tronhouse/services/cover-fb-0310-dfc90a463b.jpg",
