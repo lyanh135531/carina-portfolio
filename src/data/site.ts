@@ -105,16 +105,16 @@ export const getLocalizedPath = (locale: Locale, path: string): string => {
 export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
   home: {
     title: {
-      vi: "Tròn Agency - Creative Solution For Businesses",
-      en: "Tròn Agency - Creative Solution For Businesses",
+      vi: "Carina Portfolio - Account Executive / Producer",
+      en: "Carina Portfolio - Account Executive / Producer",
     },
     mobileTitle: {
-      vi: "Tròn Agency - Creative Solution For Businesses",
-      en: "Tròn Agency - Creative Solution For Businesses",
+      vi: "Carina Portfolio",
+      en: "Carina Portfolio",
     },
     kicker: {
-      vi: "Creative In You",
-      en: "Creative In You",
+      vi: "Career Overview",
+      en: "Career Overview",
     },
   },
   services: {

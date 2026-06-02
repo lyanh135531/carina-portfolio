@@ -2,13 +2,13 @@
 import BaseLayout from "@/components/BaseLayout.astro";
 import CardGrid from "@/components/CardGrid.astro";
 import Hero from "@/components/Hero.astro";
+import ProfileHome from "@/components/ProfileHome.astro";
 import SectionTitle from "@/components/SectionTitle.astro";
 import type { Locale, PageId } from "@/data/site";
 import {
   aboutBlocks,
   assets,
   blogPosts,
-  clientLogos,
   credentials,
   pageMeta,
   services,
@@ -26,22 +26,7 @@ const page = pageMeta[pageId];
 <BaseLayout locale={locale} pageId={pageId}>
   {
     pageId === "home" && (
-      <>
-        <Hero title="" image={assets.cosmicHero} variant="home" />
-        <section id="tron-services" class="content-section content-section--tight">
-          <SectionTitle title="TRÒN SERVICES" eyebrow={page.kicker[locale]} />
-          <CardGrid items={services.slice(0, 8)} locale={locale} variant="service" />
-        </section>
-        <section class="content-section content-section--band">
-          <SectionTitle title="TRÒN BLOG" />
-          <CardGrid items={blogPosts.slice(0, 3)} locale={locale} variant="blog" />
-        </section>
-        <section class="content-section client-strip reveal">
-          {clientLogos.map((logo) => (
-            <img src={logo.src} alt={logo.alt[locale]} loading="lazy" />
-          ))}
-        </section>
-      </>
+      <ProfileHome locale={locale} />
     )
   }
 

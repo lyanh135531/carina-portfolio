@@ -12,10 +12,60 @@ type Props = Readonly<{
   alternatePath?: string;
 }>;
 
+type FooterColumn = Readonly<{
+  title: string;
+  body: readonly string[];
+}>;
+
+type FooterContent = Readonly<{
+  columns: readonly FooterColumn[];
+  brandLine: string;
+  legal: string;
+}>;
+
 const { locale, pageId, title, description, alternatePath } = Astro.props;
 const meta = pageMeta[pageId];
 const documentTitle = title ?? meta.title[locale];
-const documentDescription = description ?? "Private learning clone of the TRÒN portfolio interface.";
+const documentDescription = description ?? "Portfolio overview for an Account Executive and Producer profile.";
+const footerContentByLocale: Readonly<Record<Locale, FooterContent>> = {
+  vi: {
+    columns: [
+      {
+        title: "Profile",
+        body: ["Account Executive / Producer", "Client management, project delivery and creative production."],
+      },
+      {
+        title: "Focus",
+        body: ["Creative campaign coordination", "SaaS implementation", "Production and vendor workflow"],
+      },
+      {
+        title: "Working Style",
+        body: ["Clear brief, clear timeline, clear ownership.", "Built for client-facing delivery."],
+      },
+    ],
+    brandLine: "Account Executive / Producer Portfolio",
+    legal: "Carina Portfolio",
+  },
+  en: {
+    columns: [
+      {
+        title: "Profile",
+        body: ["Account Executive / Producer", "Client management, project delivery and creative production."],
+      },
+      {
+        title: "Focus",
+        body: ["Creative campaign coordination", "SaaS implementation", "Production and vendor workflow"],
+      },
+      {
+        title: "Working Style",
+        body: ["Clear brief, clear timeline, clear ownership.", "Built for client-facing delivery."],
+      },
+    ],
+    brandLine: "Account Executive / Producer Portfolio",
+    legal: "Carina Portfolio",
+  },
+};
+const footerContent = footerContentByLocale[locale];
 ---
 
 <!doctype html>
@@ -42,31 +92,26 @@ const documentDescription = description ?? "Private learning clone of the TRÒN 
     </main>
     <footer class="site-footer reveal">
       <div class="site-footer__columns">
-        <section>
-          <h2>Headquarters</h2>
-          <p>T11-21, Đường T11, Khu The Manhattan Glory, Vinhomes Grand Park, Phường Long Bình, Thủ Đức, Vietnam</p>
-        </section>
-        <section>
-          <h2>Hotline</h2>
-          <p>+8496.1934.065 -<br />+8428.7102.2407</p>
-        </section>
-        <section>
-          <h2>Connect</h2>
-          <div class="site-footer__social" aria-label="Social channels">
-            <span>f</span>
-            <span>ig</span>
-            <span>yt</span>
-            <span>p</span>
-            <span>be</span>
-          </div>
-          <p>cs@tronhouse.com</p>
-        </section>
+        {
+          footerContent.columns.map((column) => (
+            <section>
+              <h2>{column.title}</h2>
+              <div class="site-footer__body">
+                {
+                  column.body.map((line) => (
+                    <p>{line}</p>
+                  ))
+                }
+              </div>
+            </section>
+          ))
+        }
       </div>
       <div class="site-footer__brand">
-        <img src="/assets/tronhouse/home/logo.jpg" alt="TRÒN" />
-        <p>TRÒN - Creative Solution For Businesses</p>
+        <p class="site-footer__wordmark">Carina Portfolio</p>
+        <p>{footerContent.brandLine}</p>
       </div>
-      <p class="site-footer__legal">© All rights reserved. Made by TRÒN<br />tronhouse.com - tronhouse.vn</p>
+      <p class="site-footer__legal">{footerContent.legal}</p>
     </footer>
     <script>
       import "@/scripts/animations";

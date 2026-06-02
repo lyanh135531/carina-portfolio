@@ -1,0 +1,113 @@
+---
+import type { Locale } from "@/data/site";
+import { assets } from "@/data/site";
+import {
+  profileCapabilities,
+  profileExperiences,
+  profileIntro,
+  profileNarrative,
+  profileSectionLabels,
+} from "@/data/profile";
+
+type Props = Readonly<{
+  locale: Locale;
+}>;
+
+const { locale } = Astro.props;
+---
+
+<section class="profile-hero" data-hero>
+  <img class="profile-hero__image" src={assets.homeCampaignA} alt="" loading="eager" data-hero-image />
+  <div class="profile-hero__scrim"></div>
+  <div class="profile-hero__inner">
+    <div class="profile-hero__content reveal">
+      <p class="profile-hero__eyebrow">{profileIntro.eyebrow[locale]}</p>
+      <h1>{profileIntro.title[locale]}</h1>
+      <p class="profile-hero__summary">{profileIntro.summary[locale]}</p>
+      <div class="profile-hero__actions">
+        <a class="profile-button profile-button--primary" href="#experience">
+          {profileIntro.primaryAction[locale]}
+        </a>
+        <a class="profile-button" href="#capabilities">
+          {profileIntro.secondaryAction[locale]}
+        </a>
+      </div>
+    </div>
+    <div class="profile-hero__metrics reveal">
+      {
+        profileIntro.metrics.map((metric) => (
+          <article class="profile-metric">
+            <strong>{metric.value[locale]}</strong>
+            <span>{metric.label[locale]}</span>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="content-section profile-narrative">
+  <div class="profile-narrative__label reveal">{profileNarrative.eyebrow[locale]}</div>
+  <div class="profile-narrative__content reveal">
+    <h2>{profileNarrative.title[locale]}</h2>
+    {
+      profileNarrative.paragraphs[locale].map((paragraph) => (
+        <p>{paragraph}</p>
+      ))
+    }
+  </div>
+</section>
+
+<section id="experience" class="content-section profile-section profile-section--experience">
+  <div class="profile-section__header reveal">
+    <p>{profileSectionLabels.experienceEyebrow[locale]}</p>
+    <h2>{profileSectionLabels.experienceTitle[locale]}</h2>
+  </div>
+  <ol class="experience-timeline reveal">
+    {
+      profileExperiences.map((experience) => (
+        <li class="experience-timeline__item">
+          <article class="experience-card">
+            <div class="experience-card__meta">
+              <span>{experience.period}</span>
+              <span>{experience.company}</span>
+            </div>
+            <h3>{experience.role[locale]}</h3>
+            <p class="experience-card__summary">{experience.summary[locale]}</p>
+            <ul>
+              {
+                experience.bullets[locale].map((bullet) => (
+                  <li>{bullet}</li>
+                ))
+              }
+            </ul>
+            <div class="experience-card__scope" aria-label={profileSectionLabels.scopeLabel[locale]}>
+              {
+                experience.scopes.map((scope) => (
+                  <span>{scope[locale]}</span>
+                ))
+              }
+            </div>
+          </article>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<section id="capabilities" class="content-section profile-section profile-section--capabilities">
+  <div class="profile-section__header reveal">
+    <p>{profileSectionLabels.capabilitiesEyebrow[locale]}</p>
+    <h2>{profileSectionLabels.capabilitiesTitle[locale]}</h2>
+  </div>
+  <div class="capability-grid reveal">
+    {
+      profileCapabilities.map((capability) => (
+        <article class="capability-card">
+          <h3>{capability.title[locale]}</h3>
+          <p>{capability.summary[locale]}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
