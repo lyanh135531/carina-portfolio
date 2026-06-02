@@ -300,6 +300,13 @@ export const profileClientLogos: readonly ProfileClientLogo[] = [
     },
   },
   {
+    name: "AT Center",
+    image: {
+      src: "/assets/clients/atcenter.png",
+      alt: { vi: "Logo AT Center", en: "AT Center logo" },
+    },
+  },
+  {
     name: "Taihan",
     image: {
       src: "/assets/clients/taihan.png",
