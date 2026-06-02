@@ -36,11 +36,21 @@ export type ProfileCapability = Readonly<{
   summary: LocalizedText;
 }>;
 
+export type ProfileClientLogo = Readonly<{
+  name: string;
+  image: {
+    src: string;
+    alt: LocalizedText;
+  };
+}>;
+
 export type ProfileSectionLabels = Readonly<{
   experienceEyebrow: LocalizedText;
   experienceTitle: LocalizedText;
   capabilitiesEyebrow: LocalizedText;
   capabilitiesTitle: LocalizedText;
+  clientsEyebrow: LocalizedText;
+  clientsTitle: LocalizedText;
   scopeLabel: LocalizedText;
 }>;
 
@@ -238,6 +248,72 @@ export const profileCapabilities: readonly ProfileCapability[] = [
   },
 ];
 
+export const profileClientLogos: readonly ProfileClientLogo[] = [
+  {
+    name: "Masan Group",
+    image: {
+      src: "/assets/clients/masan.png",
+      alt: { vi: "Logo Masan Group", en: "Masan Group logo" },
+    },
+  },
+  {
+    name: "Nutifood",
+    image: {
+      src: "/assets/clients/nutifood.png",
+      alt: { vi: "Logo Nutifood", en: "Nutifood logo" },
+    },
+  },
+  {
+    name: "LOF",
+    image: {
+      src: "/assets/clients/lof.png",
+      alt: { vi: "Logo LOF", en: "LOF logo" },
+    },
+  },
+  {
+    name: "TH true MILK",
+    image: {
+      src: "/assets/clients/th-true-milk.png",
+      alt: { vi: "Logo TH true MILK", en: "TH true MILK logo" },
+    },
+  },
+  {
+    name: "Dalat Milk",
+    image: {
+      src: "/assets/clients/dalatmilk.png",
+      alt: { vi: "Logo Dalat Milk", en: "Dalat Milk logo" },
+    },
+  },
+  {
+    name: "Shinhan Bank",
+    image: {
+      src: "/assets/clients/shinhan-bank.png",
+      alt: { vi: "Logo Shinhan Bank", en: "Shinhan Bank logo" },
+    },
+  },
+  {
+    name: "Taihan",
+    image: {
+      src: "/assets/clients/taihan.png",
+      alt: { vi: "Logo Taihan", en: "Taihan logo" },
+    },
+  },
+  {
+    name: "LocknLock",
+    image: {
+      src: "/assets/clients/locknlock.png",
+      alt: { vi: "Logo LocknLock", en: "LocknLock logo" },
+    },
+  },
+  {
+    name: "NIPA",
+    image: {
+      src: "/assets/clients/nipa.png",
+      alt: { vi: "Logo NIPA", en: "NIPA logo" },
+    },
+  },
+];
+
 export const profileSectionLabels: ProfileSectionLabels = {
   experienceEyebrow: {
     vi: "Selected Experience",
@@ -254,6 +330,14 @@ export const profileSectionLabels: ProfileSectionLabels = {
   capabilitiesTitle: {
     vi: "Năng lực chính",
     en: "Core Capabilities",
+  },
+  clientsEyebrow: {
+    vi: "Selected Clients",
+    en: "Selected Clients",
+  },
+  clientsTitle: {
+    vi: "Clients đã làm việc chung",
+    en: "Clients Worked With",
   },
   scopeLabel: {
     vi: "Phạm vi công việc",

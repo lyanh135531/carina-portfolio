@@ -3,6 +3,7 @@ import type { Locale } from "@/data/site";
 import { assets } from "@/data/site";
 import {
   profileCapabilities,
+  profileClientLogos,
   profileExperiences,
   profileIntro,
   profileNarrative,
@@ -106,6 +107,25 @@ const { locale } = Astro.props;
         <article class="capability-card">
           <h3>{capability.title[locale]}</h3>
           <p>{capability.summary[locale]}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<section id="clients" class="content-section profile-section profile-section--clients">
+  <div class="profile-section__header reveal">
+    <p>{profileSectionLabels.clientsEyebrow[locale]}</p>
+    <h2>{profileSectionLabels.clientsTitle[locale]}</h2>
+  </div>
+  <div class="client-logo-grid reveal">
+    {
+      profileClientLogos.map((client) => (
+        <article class="client-logo-card">
+          <div class="client-logo-card__mark">
+            <img src={client.image.src} alt={client.image.alt[locale]} loading="lazy" />
+          </div>
+          <span>{client.name}</span>
         </article>
       ))
     }

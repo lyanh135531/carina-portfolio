@@ -456,6 +456,11 @@ body[data-page="home"] .site-header {
   padding-top: 3rem;
 }
 
+.profile-section--clients {
+  padding-top: 3rem;
+  padding-bottom: clamp(5rem, 8vw, 7rem);
+}
+
 .profile-section__header {
   max-width: 760px;
   margin-bottom: 2.6rem;
@@ -608,6 +613,61 @@ body[data-page="home"] .site-header {
   font-size: 0.96rem;
   font-weight: 500;
   line-height: 1.7;
+}
+
+.client-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.client-logo-card {
+  display: grid;
+  min-height: 208px;
+  align-content: space-between;
+  gap: 1rem;
+  border: 1px solid rgba(255, 241, 0, 0.14);
+  border-radius: 8px;
+  padding: 1rem;
+  background:
+    linear-gradient(140deg, rgba(255, 241, 0, 0.07), transparent 34%),
+    rgba(5, 8, 9, 0.92);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.client-logo-card:hover {
+  border-color: rgba(255, 241, 0, 0.52);
+  background:
+    linear-gradient(140deg, rgba(255, 241, 0, 0.12), transparent 38%),
+    rgba(8, 13, 15, 0.96);
+  transform: translateY(-3px);
+}
+
+.client-logo-card__mark {
+  display: flex;
+  min-height: 132px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  padding: 1.2rem;
+  background: #ffffff;
+}
+
+.client-logo-card__mark img {
+  width: 100%;
+  height: 86px;
+  object-fit: contain;
+}
+
+.client-logo-card span {
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .mobile-page-title {
@@ -1357,7 +1417,8 @@ body[data-page="home"] .site-header {
   }
 
   .profile-section--experience,
-  .profile-section--capabilities {
+  .profile-section--capabilities,
+  .profile-section--clients {
     padding-top: 2.1rem;
   }
 
@@ -1383,6 +1444,23 @@ body[data-page="home"] .site-header {
 
   .capability-card {
     min-height: 0;
+  }
+
+  .client-logo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .client-logo-card {
+    min-height: 188px;
+  }
+
+  .client-logo-card__mark {
+    min-height: 116px;
+    padding: 1rem;
+  }
+
+  .client-logo-card__mark img {
+    height: 76px;
   }
 
   .hero__content h1 {
@@ -1521,6 +1599,14 @@ body[data-page="home"] .site-header {
 
   .profile-metric {
     min-height: 0;
+  }
+
+  .client-logo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .client-logo-card {
+    min-height: 168px;
   }
 
   .card-grid--blog {
