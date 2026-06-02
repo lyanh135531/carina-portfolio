@@ -10,6 +10,7 @@ export type ProfileMetric = Readonly<{
 export type ProfileIntro = Readonly<{
   eyebrow: LocalizedText;
   title: LocalizedText;
+  roles: readonly LocalizedText[];
   summary: LocalizedText;
   primaryAction: LocalizedText;
   secondaryAction: LocalizedText;
@@ -60,9 +61,14 @@ export const profileIntro: ProfileIntro = {
     en: "Career Overview",
   },
   title: {
-    vi: "Account Executive / Producer",
-    en: "Account Executive / Producer",
+    vi: "Account Executive",
+    en: "Account Executive",
   },
+  roles: [
+    { vi: "Project Management", en: "Project Management" },
+    { vi: "Client Service", en: "Client Service" },
+    { vi: "Integrated Producer", en: "Integrated Producer" },
+  ],
   summary: {
     vi: "Kết nối client, creative, production và product team để biến brief thành kế hoạch triển khai rõ ràng, kiểm soát timeline, feedback, deliverables và chất lượng đầu ra.",
     en: "Connecting clients, creative teams, production crews and product teams to turn briefs into clear delivery plans across timeline, feedback, deliverables and output quality.",
@@ -109,21 +115,23 @@ export const profileIntro: ProfileIntro = {
 
 export const profileNarrative: ProfileNarrative = {
   eyebrow: {
-    vi: "Career Logic",
-    en: "Career Logic",
+    vi: "The Connector",
+    en: "The Connector",
   },
   title: {
-    vi: "Biết nói chuyện với business, creative và technical team",
-    en: "Fluent across business, creative and technical teams",
+    vi: "Xin chào,\nMình là người kết nối!",
+    en: "Hello,\nI am the connector.",
   },
   paragraphs: {
     vi: [
-      "Nền tảng account trong SaaS giúp tôi hiểu cách biến nhu cầu vận hành thành giải pháp triển khai thực tế, từ requirement, onboarding đến xử lý vấn đề sau delivery.",
-      "Kinh nghiệm producer trong creative agency mở rộng năng lực đó sang chiến dịch truyền thông, sản xuất, vendor và creative execution, nơi timeline, feedback và chất lượng đầu ra cần được kiểm soát liên tục.",
+      "Mình tin rằng một dự án thành công không chỉ bắt đầu từ một ý tưởng tốt, mà từ việc mọi người cùng hiểu đúng mục tiêu, phối hợp đúng nhịp và cùng hướng về một kết quả chung.",
+      "Vì vậy, mình thường đứng ở giao điểm giữa khách hàng và đội ngũ nội bộ, giữa nhu cầu kinh doanh và khả năng triển khai thực tế, giữa áp lực deadline và tiêu chuẩn chất lượng.",
+      "Không chỉ là điều phối công việc, mình tạo ra sự kết nối đủ rõ ràng để mọi ý tưởng có thể được triển khai một cách hiệu quả nhất.",
     ],
     en: [
-      "My account foundation in SaaS shaped how I translate operational needs into practical implementation plans, from requirements and onboarding to post-delivery issue handling.",
-      "Producer experience in a creative agency extended that discipline into campaigns, production, vendors and creative execution, where timeline, feedback and output quality need constant control.",
+      "I believe a successful project does not begin with a good idea alone, but with people understanding the same goal, moving in the same rhythm and working toward one shared outcome.",
+      "That is why I often stand at the intersection between clients and internal teams, business needs and practical execution, deadline pressure and quality standards.",
+      "More than coordinating tasks, I create the clarity that helps ideas move into execution effectively.",
     ],
   },
 };

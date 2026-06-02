@@ -24,6 +24,13 @@ const { locale } = Astro.props;
     <div class="profile-hero__content reveal">
       <p class="profile-hero__eyebrow">{profileIntro.eyebrow[locale]}</p>
       <h1>{profileIntro.title[locale]}</h1>
+      <div class="profile-hero__roles" aria-label="Professional roles">
+        {
+          profileIntro.roles.map((role) => (
+            <span>{role[locale]}</span>
+          ))
+        }
+      </div>
       <p class="profile-hero__summary">{profileIntro.summary[locale]}</p>
       <div class="profile-hero__actions">
         <a class="profile-button profile-button--primary" href="#experience">
