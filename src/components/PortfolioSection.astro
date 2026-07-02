@@ -1,0 +1,1178 @@
+---
+import type { Locale } from "@/data/site";
+import { portfolioCategories, portfolioProjects } from "@/data/portfolio";
+
+type Props = { locale: Locale };
+const { locale } = Astro.props;
+
+const projectsJson = JSON.stringify(portfolioProjects);
+const categoriesJson = JSON.stringify(portfolioCategories);
+
+// Dynamic Card Size calculator for editorial grid
+function getCardSizeClass(category: string, idx: number, hasVideo: boolean): string {
+  if (hasVideo) return "card--wide";
+  if (category === "bao_bi" && idx % 3 === 0) return "card--tall";
+  if (category === "key_visual" && idx % 4 === 1) return "card--tall";
+  return "card--standard";
+}
+---
+
+<section class="portfolio reveal">
+  <div class="header">
+    <p class="eyebrow">SELECTED WORK • 2022–2026</p>
+    <h1>Portfolio</h1>
+    <p class="subtitle">Key Visual • Packaging • TVC • Activation • Event • Social</p>
+  </div>
+
+  <div class="controls">
+    <div class="filters" data-filters>
+      <button class="filter active" data-filter="all">All</button>
+      {portfolioCategories.map(cat => (
+        <button class="filter" data-filter={cat.id}>{cat.label[locale]}</button>
+      ))}
+    </div>
+    <div class="search-wrapper">
+      <input type="text" id="portfolio-search" placeholder={locale === 'vi' ? "Tìm kiếm dự án..." : "Search projects..."} />
+      <span class="search-icon">🔍</span>
+    </div>
+    <div class="count" id="project-count"></div>
+  </div>
+
+  <div class="grid" data-grid>
+    {portfolioProjects.map((p, idx) => {
+      const sizeClass = getCardSizeClass(p.category, idx, !!p.video);
+      return (
+        <article class={`card ${sizeClass}`} data-category={p.category} data-id={p.id}>
+          <div class="media">
+            {p.thumbnail && p.thumbnail.endsWith('.mp4') ? (
+              <video src={p.thumbnail} muted playsinline preload="metadata" loop class="card-video" />
+            ) : p.thumbnail && !p.thumbnail.endsWith('.txt') ? (
+              <img src={p.thumbnail} alt={p.title[locale]} loading="lazy" />
+            ) : p.category === 'social' ? (
+              <div class="social-media-preview">
+                <span class="social-icon">📸</span>
+                <span class="social-handle">@chinsu_usa</span>
+              </div>
+            ) : (
+              <div class="media-placeholder">No preview</div>
+            )}
+            <div class="badge">{portfolioCategories.find(c => c.id === p.category)?.label[locale]}</div>
+            {p.video && <div class="play-badge">▶ VIDEO</div>}
+          </div>
+          <div class="body">
+            <div class="meta"><span>{p.year}</span> • <span>{p.client}</span></div>
+            <h3>{p.title[locale]}</h3>
+            <div class="tags">{p.tags.slice(0, 3).map(t => <span class="tag">{t}</span>)}</div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+</section>
+
+<!-- Sleek Slide-Over Drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-backdrop" data-close></div>
+  <div class="drawer-panel">
+    <button class="drawer-close" data-close>×</button>
+    <div class="drawer-body-wrapper">
+      <div class="drawer-content" id="drawer-content"></div>
+      
+      <div class="drawer-nav">
+        <button class="nav-btn prev-btn" id="drawer-prev-btn">
+          <span class="nav-arrow">←</span> 
+          <div class="nav-details">
+            <span class="nav-action">PREV</span>
+            <span class="nav-title" id="drawer-prev-title">Project Title</span>
+          </div>
+        </button>
+        <button class="nav-btn next-btn" id="drawer-next-btn">
+          <div class="nav-details">
+            <span class="nav-action">NEXT</span>
+            <span class="nav-title" id="drawer-next-title">Project Title</span>
+          </div>
+          <span class="nav-arrow">→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ projectsJson, categoriesJson, locale }}>
+  const projects = JSON.parse(projectsJson);
+  const portfolioCategories = JSON.parse(categoriesJson);
+  window.__PORTFOLIO__ = projects;
+
+  function initPortfolio() {
+    const grid = document.querySelector('[data-grid]');
+    const filters = document.querySelectorAll('.filter');
+    const searchInput = document.getElementById('portfolio-search');
+    const countEl = document.getElementById('project-count');
+    const drawer = document.getElementById('drawer');
+    const drawerContent = document.getElementById('drawer-content');
+    const prevBtn = document.getElementById('drawer-prev-btn');
+    const nextBtn = document.getElementById('drawer-next-btn');
+    const prevTitle = document.getElementById('drawer-prev-title');
+    const nextTitle = document.getElementById('drawer-next-title');
+
+    if (!grid) return;
+
+    let activeProjects = [...projects];
+    let currentProjectIndex = -1;
+
+    // Update Project Count
+    function updateCount(visible) {
+      const total = projects.length;
+      countEl.textContent = visible === total ? `${total} projects` : `${visible} / ${total} projects`;
+    }
+    updateCount(projects.length);
+
+    // Apply Filtering & Searching
+    function applyFilters() {
+      const activeFilter = document.querySelector('.filter.active')?.dataset.filter || 'all';
+      const searchTerm = (searchInput?.value || '').toLowerCase().trim();
+
+      activeProjects = [];
+
+      document.querySelectorAll('.card').forEach(card => {
+        const cat = card.dataset.category;
+        const id = card.dataset.id;
+        const proj = projects.find(p => p.id === id) || {};
+        const title = (proj.title?.[locale] || '').toLowerCase();
+        const client = (proj.client || '').toLowerCase();
+
+        const matchesFilter = activeFilter === 'all' || cat === activeFilter;
+        const matchesSearch = !searchTerm || title.includes(searchTerm) || client.includes(searchTerm);
+
+        if (matchesFilter && matchesSearch) {
+          card.style.display = '';
+          card.classList.add('visible-card');
+          activeProjects.push(proj);
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('visible-card');
+        }
+      });
+      updateCount(activeProjects.length);
+    }
+
+    filters.forEach(f => f.addEventListener('click', () => {
+      filters.forEach(x => x.classList.remove('active'));
+      f.classList.add('active');
+      applyFilters();
+    }));
+
+    if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+    // Hover Video Playback Behavior
+    document.querySelectorAll('.card').forEach(card => {
+      const video = card.querySelector('.card-video');
+      if (video) {
+        card.addEventListener('mouseenter', () => {
+          video.play().catch(e => {});
+        });
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+        });
+      }
+
+      // Card click to open drawer
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        currentProjectIndex = activeProjects.findIndex(p => p.id === id);
+        if (currentProjectIndex !== -1) {
+          openDrawer(activeProjects[currentProjectIndex]);
+        }
+      });
+    });
+
+    // Drawer Open and Render Logic
+    function openDrawer(proj) {
+      if (!proj) return;
+
+      const catLabel = portfolioCategories.find(c => c.id === proj.category)?.label[locale] || proj.category;
+
+      // Media content
+      let mediaHTML = '';
+      if (proj.id === 'chinsu-social') {
+        mediaHTML = `
+          <div class="main-media social-embed-container">
+            <div class="instagram-banner">
+              <div class="insta-logo">📸</div>
+              <h3>Chinsu USA</h3>
+              <p class="insta-sub">Official Instagram Channel</p>
+              <a href="https://www.instagram.com/chinsu_usa/" target="_blank" rel="noopener noreferrer" class="insta-btn">
+                Visit @chinsu_usa →
+              </a>
+            </div>
+          </div>
+        `;
+      } else if (proj.video) {
+        mediaHTML = `
+          <div class="main-media">
+            <video src="${proj.video}" controls playsinline autoplay style="width:100%; max-height:480px; border-radius:16px; background:#000; display:block;"></video>
+          </div>
+        `;
+      } else if (proj.thumbnail && !proj.thumbnail.endsWith('.txt')) {
+        mediaHTML = `
+          <div class="main-media">
+            <img src="${proj.thumbnail}" alt="${proj.title[locale]}" style="width:100%; max-height:480px; object-fit:contain; border-radius:16px; display:block; margin:0 auto;" />
+          </div>
+        `;
+      } else {
+        mediaHTML = `<div class="main-media placeholder">No main visual</div>`;
+      }
+
+      // Gallery strip block
+      let galleryHTML = '';
+      if (proj.gallery && proj.gallery.length > 0) {
+        galleryHTML = `
+          <div class="gallery-strip">
+            <div class="gallery-label">All Assets (${proj.gallery.length})</div>
+            <div class="gallery-thumbs">
+              ${proj.gallery.map((src, idx) => {
+                const isVideo = src.endsWith('.mp4');
+                const activeClass = (src === proj.thumbnail) ? 'active' : '';
+                return isVideo 
+                  ? `<div class="thumb video-thumb ${activeClass}" data-src="${src}" data-type="video"><span>▶</span></div>`
+                  : `<img class="thumb ${activeClass}" src="${src}" data-src="${src}" data-type="image" alt="Asset ${idx+1}" />`;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Brief section
+      let briefHTML = '';
+      if (proj.brief && proj.brief[locale]) {
+        briefHTML = `
+          <div class="brief-section">
+            <div class="brief-label">Project Brief (Original)</div>
+            <div class="brief-content">
+              ${proj.brief[locale].split('\n').map(line => line.trim() ? `<p>${line}</p>` : '<br>').join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        briefHTML = `
+          <div class="brief-section">
+            <div class="brief-label">Project Brief</div>
+            <div class="brief-content"><p>No Info.txt file provided for this project. Assets collection only.</p></div>
+          </div>
+        `;
+      }
+
+      // Populate drawer content
+      drawerContent.innerHTML = `
+        <div class="drawer-header">
+          <div class="m-badges">
+            <span class="m-badge">${catLabel}</span>
+            ${proj.video ? '<span class="m-badge video">VIDEO</span>' : ''}
+          </div>
+          <h2>${proj.title[locale]}</h2>
+          
+          <div class="m-meta-info">
+            <div class="meta-item">
+              <span class="meta-label">Client</span>
+              <span class="meta-val">${proj.client}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Year</span>
+              <span class="meta-val">${proj.year}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="drawer-visuals">
+          ${mediaHTML}
+          ${galleryHTML}
+        </div>
+
+        <div class="drawer-details">
+          <div class="m-section">
+            <div class="m-section-title">Overview</div>
+            <p class="m-desc">${proj.description[locale]}</p>
+          </div>
+
+          ${briefHTML}
+
+          <div class="m-section">
+            <div class="m-section-title">Tags</div>
+            <div class="m-tags">
+              ${proj.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Update In-drawer navigation state
+      updateDrawerNavigation();
+
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Gallery thumbnail click handler
+      setTimeout(() => {
+        const mainMedia = drawerContent.querySelector('.main-media');
+        const thumbs = drawerContent.querySelectorAll('.thumb');
+        thumbs.forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            thumbs.forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+
+            const src = thumb.dataset.src;
+            const type = thumb.dataset.type;
+            if (!mainMedia || !src) return;
+
+            if (type === 'video') {
+              mainMedia.innerHTML = `<video src="${src}" controls playsinline autoplay style="width:100%; max-height:480px; border-radius:16px; background:#000; display:block;"></video>`;
+            } else {
+              mainMedia.innerHTML = `<img src="${src}" alt="Preview" style="width:100%; max-height:480px; object-fit:contain; border-radius:16px; display:block; margin:0 auto;" />`;
+            }
+          });
+        });
+      }, 50);
+    }
+
+    // Update Next/Prev Project Navigation in Drawer
+    function updateDrawerNavigation() {
+      // Prev Button
+      if (currentProjectIndex > 0) {
+        prevBtn.removeAttribute('disabled');
+        const prevProj = activeProjects[currentProjectIndex - 1];
+        prevTitle.textContent = prevProj.title[locale];
+      } else {
+        prevBtn.setAttribute('disabled', 'true');
+        prevTitle.textContent = '---';
+      }
+
+      // Next Button
+      if (currentProjectIndex < activeProjects.length - 1) {
+        nextBtn.removeAttribute('disabled');
+        const nextProj = activeProjects[currentProjectIndex + 1];
+        nextTitle.textContent = nextProj.title[locale];
+      } else {
+        nextBtn.setAttribute('disabled', 'true');
+        nextTitle.textContent = '---';
+      }
+    }
+
+    // Nav Click Handlers
+    prevBtn.addEventListener('click', () => {
+      if (currentProjectIndex > 0) {
+        currentProjectIndex--;
+        // Fade effect transitions inside drawer panel
+        drawerContent.style.opacity = '0';
+        drawerContent.style.transform = 'translateY(15px)';
+        setTimeout(() => {
+          openDrawer(activeProjects[currentProjectIndex]);
+          drawerContent.style.opacity = '1';
+          drawerContent.style.transform = 'translateY(0)';
+          drawerContent.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentProjectIndex < activeProjects.length - 1) {
+        currentProjectIndex++;
+        drawerContent.style.opacity = '0';
+        drawerContent.style.transform = 'translateY(15px)';
+        setTimeout(() => {
+          openDrawer(activeProjects[currentProjectIndex]);
+          drawerContent.style.opacity = '1';
+          drawerContent.style.transform = 'translateY(0)';
+          drawerContent.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    });
+
+    // Close Actions
+    document.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => {
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      const activeVideo = drawerContent.querySelector('video');
+      if (activeVideo) activeVideo.pause();
+    }));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        const activeVideo = drawerContent.querySelector('video');
+        if (activeVideo) activeVideo.pause();
+      }
+    });
+  }
+
+  document.readyState === 'loading' 
+    ? document.addEventListener('DOMContentLoaded', initPortfolio) 
+    : initPortfolio();
+</script>
+
+<style>
+  .portfolio {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--color-yellow);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 700;
+    margin: 12px 0 16px;
+    color: var(--color-white);
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    color: var(--color-muted);
+    font-size: 16px;
+    opacity: 0.8;
+  }
+
+  /* Controls & Search */
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 16px 24px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter {
+    padding: 8px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-muted);
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .filter:hover {
+    color: var(--color-white);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
+  }
+
+  .filter.active {
+    background: var(--color-yellow);
+    color: var(--color-black);
+    border-color: var(--color-yellow);
+    box-shadow: 0 4px 15px rgba(255, 241, 0, 0.35);
+  }
+
+  .search-wrapper {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  #portfolio-search {
+    width: 100%;
+    padding: 10px 18px 10px 42px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    font-size: 14px;
+    color: var(--color-white);
+    transition: all 0.3s ease;
+  }
+
+  #portfolio-search::placeholder {
+    color: var(--color-muted);
+    opacity: 0.5;
+  }
+
+  #portfolio-search:focus {
+    outline: none;
+    border-color: var(--color-yellow);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 15px rgba(255, 241, 0, 0.2);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .count {
+    font-size: 13.5px;
+    color: var(--color-muted);
+    opacity: 0.7;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* Asymmetric Editorial Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-auto-rows: 240px;
+    grid-auto-flow: dense;
+    gap: 30px;
+  }
+
+  /* Asymmetric Card Sizes */
+  .card {
+    background: var(--color-panel-soft);
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    will-change: transform, box-shadow;
+  }
+
+  /* Standard Card Size */
+  .card--standard {
+    grid-row: span 2;
+    grid-column: span 1;
+  }
+
+  /* Wide Card Size (Usually TVCs with Video) */
+  .card--wide {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Tall Card Size */
+  .card--tall {
+    grid-row: span 3;
+    grid-column: span 1;
+  }
+
+  @media (max-width: 992px) {
+    .card--wide {
+      grid-column: span 1;
+    }
+  }
+
+  .card:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(255, 241, 0, 0.3);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 241, 0, 0.08);
+  }
+
+  .media {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    min-height: 200px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .media img, .media video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card:hover .media img, .card:hover .media video {
+    transform: scale(1.05);
+  }
+
+  .media-placeholder {
+    color: #666;
+    font-size: 13px;
+  }
+
+  .badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--color-white);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .play-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--color-yellow);
+    color: var(--color-black);
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    box-shadow: 0 3px 10px rgba(255, 241, 0, 0.3);
+  }
+
+  .body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.2));
+  }
+
+  .meta {
+    font-size: 12px;
+    color: var(--color-muted);
+    opacity: 0.6;
+    font-weight: 500;
+  }
+
+  .body h3 {
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    color: var(--color-white);
+    letter-spacing: -0.3px;
+  }
+
+  .tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--color-muted);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+
+  /* Custom Instagram Preview Graphic */
+  .social-media-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    color: white;
+  }
+
+  .social-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  }
+
+  .social-handle {
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Slide-Over Drawer System */
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    overflow: hidden;
+  }
+
+  .drawer[aria-hidden="false"] {
+    display: block;
+  }
+
+  .drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    min-width: 560px;
+    max-width: 760px;
+    background: var(--color-panel);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    transform: translateX(100%);
+    animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideIn {
+    to { transform: translateX(0); }
+  }
+
+  .drawer-close {
+    position: absolute;
+    top: 24px;
+    left: -60px;
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .drawer-close:hover {
+    background: var(--color-yellow);
+    color: var(--color-black);
+    border-color: var(--color-yellow);
+    transform: scale(1.05);
+  }
+
+  .drawer-body-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .drawer-content {
+    padding: 60px 48px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* Drawer Typography & Info */
+  .drawer-header h2 {
+    font-size: 38px;
+    font-weight: 700;
+    margin: 16px 0;
+    line-height: 1.2;
+    color: var(--color-white);
+    letter-spacing: -0.5px;
+  }
+
+  .m-badges {
+    display: flex;
+    gap: 8px;
+  }
+
+  .m-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-muted);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .m-badge.video {
+    background: var(--color-yellow);
+    color: var(--color-black);
+    border-color: var(--color-yellow);
+  }
+
+  .m-meta-info {
+    display: flex;
+    gap: 32px;
+    margin-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 16px;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-size: 11px;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    opacity: 0.5;
+  }
+
+  .meta-val {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-white);
+  }
+
+  .drawer-visuals {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .main-media {
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+
+  .drawer-details {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .m-section-title {
+    font-size: 12px;
+    color: var(--color-yellow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .m-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  /* Brief Section */
+  .brief-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brief-label {
+    font-size: 12px;
+    color: var(--color-yellow);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .brief-content {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    border-radius: 16px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--color-muted);
+    max-height: 320px;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .brief-content p {
+    margin: 0 0 12px;
+  }
+
+  .brief-content br {
+    display: block;
+    margin: 8px 0;
+  }
+
+  /* Gallery Strip */
+  .gallery-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gallery-label {
+    font-size: 12px;
+    color: var(--color-muted);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    opacity: 0.5;
+  }
+
+  .gallery-thumbs {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .thumb {
+    width: 80px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  .thumb:hover {
+    opacity: 0.9;
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .thumb.active {
+    opacity: 1;
+    border-color: var(--color-yellow);
+    box-shadow: 0 0 10px rgba(255, 241, 0, 0.2);
+  }
+
+  .video-thumb {
+    background: #111;
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  /* Instagram Banner */
+  .social-embed-container {
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 30% 107%, #1a1711 0%, #1e1112 45%, #181119 90%);
+  }
+
+  .instagram-banner {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .insta-logo {
+    font-size: 56px;
+    margin-bottom: 16px;
+  }
+
+  .instagram-banner h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: var(--color-white);
+  }
+
+  .insta-sub {
+    color: var(--color-muted);
+    font-size: 14px;
+    opacity: 0.6;
+    margin-bottom: 24px;
+  }
+
+  .insta-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 13.5px;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+  }
+
+  .insta-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Drawer Navigation Bottom */
+  .drawer-nav {
+    display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    bottom: 0;
+  }
+
+  .nav-btn {
+    flex: 1;
+    padding: 24px;
+    background: transparent;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-btn:hover:not([disabled]) {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .nav-btn[disabled] {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+
+  .next-btn {
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .nav-arrow {
+    font-size: 24px;
+    color: var(--color-yellow);
+    transition: transform 0.3s ease;
+  }
+
+  .prev-btn:hover:not([disabled]) .nav-arrow {
+    transform: translateX(-4px);
+  }
+
+  .next-btn:hover:not([disabled]) .nav-arrow {
+    transform: translateX(4px);
+  }
+
+  .nav-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .nav-action {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-yellow);
+    letter-spacing: 0.5px;
+  }
+
+  .nav-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-white);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .portfolio {
+      padding: 60px 16px 80px;
+    }
+
+    .header h1 {
+      font-size: 40px;
+    }
+
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px;
+    }
+
+    .search-wrapper {
+      max-width: none;
+    }
+
+    .count {
+      margin-left: 0;
+      text-align: right;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+
+    .card--standard, .card--wide, .card--tall {
+      grid-row: auto;
+      grid-column: auto;
+    }
+
+    .drawer-panel {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    .drawer-close {
+      left: auto;
+      right: 24px;
+      top: 16px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .drawer-content {
+      padding: 72px 20px 40px;
+    }
+
+    .drawer-header h2 {
+      font-size: 28px;
+    }
+
+    .m-meta-info {
+      gap: 16px;
+    }
+
+    .nav-title {
+      max-width: 100px;
+    }
+  }
+</style>

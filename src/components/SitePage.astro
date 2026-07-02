@@ -3,6 +3,7 @@ import BaseLayout from "@/components/BaseLayout.astro";
 import CardGrid from "@/components/CardGrid.astro";
 import Hero from "@/components/Hero.astro";
 import ProfileHome from "@/components/ProfileHome.astro";
+import PortfolioSection from "@/components/PortfolioSection.astro";
 import SectionTitle from "@/components/SectionTitle.astro";
 import type { Locale, PageId } from "@/data/site";
 import {
@@ -32,13 +33,7 @@ const page = pageMeta[pageId];
 
   {
     pageId === "services" && (
-      <>
-        <Hero title={page.title[locale]} image={assets.serviceHero} variant="page" />
-        <h1 class="mobile-page-title">{page.mobileTitle[locale]}</h1>
-        <section class="content-section content-section--tight">
-          <CardGrid items={services} locale={locale} variant="service" />
-        </section>
-      </>
+      <PortfolioSection locale={locale} />
     )
   }
 
