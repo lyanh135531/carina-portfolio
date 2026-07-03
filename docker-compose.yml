@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: carina-portfolio
+    restart: always
+    ports:
+      # Map host port 4321 to container port 4321 (where Nginx is now listening)
+      - "4321:4321"
