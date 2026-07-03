@@ -7,14 +7,6 @@ const { locale } = Astro.props;
 
 const projectsJson = JSON.stringify(portfolioProjects);
 const categoriesJson = JSON.stringify(portfolioCategories);
-
-// Dynamic Card Size calculator for editorial grid
-function getCardSizeClass(category: string, idx: number, hasVideo: boolean): string {
-  if (hasVideo) return "card--wide";
-  if (category === "bao_bi" && idx % 3 === 0) return "card--tall";
-  if (category === "key_visual" && idx % 4 === 1) return "card--tall";
-  return "card--standard";
-}
 ---
 
 <section class="portfolio reveal">
@@ -39,34 +31,31 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   </div>
 
   <div class="grid" data-grid>
-    {portfolioProjects.map((p, idx) => {
-      const sizeClass = getCardSizeClass(p.category, idx, !!p.video);
-      return (
-        <article class={`card ${sizeClass}`} data-category={p.category} data-id={p.id}>
-          <div class="media">
-            {p.thumbnail && p.thumbnail.endsWith('.mp4') ? (
-              <video src={p.thumbnail} muted playsinline preload="metadata" loop class="card-video" />
-            ) : p.thumbnail && !p.thumbnail.endsWith('.txt') ? (
-              <img src={p.thumbnail} alt={p.title[locale]} loading="lazy" />
-            ) : p.category === 'social' ? (
-              <div class="social-media-preview">
-                <span class="social-icon">📸</span>
-                <span class="social-handle">@chinsu_usa</span>
-              </div>
-            ) : (
-              <div class="media-placeholder">No preview</div>
-            )}
-            <div class="badge">{portfolioCategories.find(c => c.id === p.category)?.label[locale]}</div>
-            {p.video && <div class="play-badge">▶ VIDEO</div>}
-          </div>
-          <div class="body">
-            <div class="meta"><span>{p.year}</span> • <span>{p.client}</span></div>
-            <h3>{p.title[locale]}</h3>
-            <div class="tags">{p.tags.slice(0, 3).map(t => <span class="tag">{t}</span>)}</div>
-          </div>
-        </article>
-      );
-    })}
+    {portfolioProjects.map(p => (
+      <article class="card" data-category={p.category} data-id={p.id}>
+        <div class={`media media--${p.category}`}>
+          {p.thumbnail && p.thumbnail.endsWith('.mp4') ? (
+            <video src={p.thumbnail} muted playsinline preload="metadata" loop class="card-video" />
+          ) : p.thumbnail && !p.thumbnail.endsWith('.txt') ? (
+            <img src={p.thumbnail} alt={p.title[locale]} loading="lazy" />
+          ) : p.category === 'social' ? (
+            <div class="social-media-preview">
+              <span class="social-icon">📸</span>
+              <span class="social-handle">@chinsu_usa</span>
+            </div>
+          ) : (
+            <div class="media-placeholder">No preview</div>
+          )}
+          <div class="badge">{portfolioCategories.find(c => c.id === p.category)?.label[locale]}</div>
+          {p.video && <div class="play-badge">▶ VIDEO</div>}
+        </div>
+        <div class="body">
+          <div class="meta"><span>{p.year}</span> • <span>{p.client}</span></div>
+          <h3>{p.title[locale]}</h3>
+          <div class="tags">{p.tags.slice(0, 3).map(t => <span class="tag">{t}</span>)}</div>
+        </div>
+      </article>
+    ))}
   </div>
 </section>
 
@@ -145,7 +134,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
         const matchesSearch = !searchTerm || title.includes(searchTerm) || client.includes(searchTerm);
 
         if (matchesFilter && matchesSearch) {
-          card.style.display = '';
+          card.style.display = 'inline-flex';
           card.classList.add('visible-card');
           activeProjects.push(proj);
         } else {
@@ -224,12 +213,12 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
         mediaHTML = `<div class="main-media placeholder">No main visual</div>`;
       }
 
-      // Gallery strip block
+      // Gallery strip block (only show if there's more than 1 asset to avoid duplicates)
       let galleryHTML = '';
-      if (proj.gallery && proj.gallery.length > 0) {
+      if (proj.gallery && proj.gallery.length > 1) {
         galleryHTML = `
           <div class="gallery-strip">
-            <div class="gallery-label">All Assets (${proj.gallery.length})</div>
+            <div class="gallery-label">Project Gallery (${proj.gallery.length} assets)</div>
             <div class="gallery-thumbs">
               ${proj.gallery.map((src, idx) => {
                 const isVideo = src.endsWith('.mp4');
@@ -243,12 +232,12 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
         `;
       }
 
-      // Brief section
+      // Project Brief section
       let briefHTML = '';
       if (proj.brief && proj.brief[locale]) {
         briefHTML = `
           <div class="brief-section">
-            <div class="brief-label">Project Brief (Original)</div>
+            <div class="brief-label">🎯 Project Brief</div>
             <div class="brief-content">
               ${proj.brief[locale].split('\n').map(line => line.trim() ? `<p>${line}</p>` : '<br>').join('')}
             </div>
@@ -257,8 +246,8 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
       } else {
         briefHTML = `
           <div class="brief-section">
-            <div class="brief-label">Project Brief</div>
-            <div class="brief-content"><p>No Info.txt file provided for this project. Assets collection only.</p></div>
+            <div class="brief-label">🎯 Project Brief</div>
+            <div class="brief-content"><p class="empty-brief">No detailed project parameters provided.</p></div>
           </div>
         `;
       }
@@ -272,14 +261,18 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
           </div>
           <h2>${proj.title[locale]}</h2>
           
-          <div class="m-meta-info">
-            <div class="meta-item">
+          <div class="m-meta-grid">
+            <div class="meta-card">
               <span class="meta-label">Client</span>
               <span class="meta-val">${proj.client}</span>
             </div>
-            <div class="meta-item">
+            <div class="meta-card">
               <span class="meta-label">Year</span>
               <span class="meta-val">${proj.year}</span>
+            </div>
+            <div class="meta-card">
+              <span class="meta-label">Type</span>
+              <span class="meta-val">${catLabel}</span>
             </div>
           </div>
         </div>
@@ -291,14 +284,14 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
 
         <div class="drawer-details">
           <div class="m-section">
-            <div class="m-section-title">Overview</div>
+            <div class="m-section-title">📄 Overview</div>
             <p class="m-desc">${proj.description[locale]}</p>
           </div>
 
           ${briefHTML}
 
           <div class="m-section">
-            <div class="m-section-title">Tags</div>
+            <div class="m-section-title">🏷️ Project Tags</div>
             <div class="m-tags">
               ${proj.tags.map(t => `<span class="tag">${t}</span>`).join('')}
             </div>
@@ -539,17 +532,19 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     white-space: nowrap;
   }
 
-  /* Asymmetric Editorial Grid */
+  /* Masonry Grid via CSS Columns (No Gaps, High Performance) */
   .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    grid-auto-rows: 240px;
-    grid-auto-flow: dense;
-    gap: 30px;
+    column-count: 3;
+    column-gap: 30px;
+    width: 100%;
   }
 
-  /* Asymmetric Card Sizes */
   .card {
+    break-inside: avoid;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 30px;
     background: var(--color-panel-soft);
     border-radius: 24px;
     overflow: hidden;
@@ -557,33 +552,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
     will-change: transform, box-shadow;
-  }
-
-  /* Standard Card Size */
-  .card--standard {
-    grid-row: span 2;
-    grid-column: span 1;
-  }
-
-  /* Wide Card Size (Usually TVCs with Video) */
-  .card--wide {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  /* Tall Card Size */
-  .card--tall {
-    grid-row: span 3;
-    grid-column: span 1;
-  }
-
-  @media (max-width: 992px) {
-    .card--wide {
-      grid-column: span 1;
-    }
   }
 
   .card:hover {
@@ -595,14 +564,20 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   .media {
     position: relative;
     width: 100%;
-    flex: 1;
-    min-height: 200px;
     overflow: hidden;
     background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
+  /* Responsive Aspect Ratios depending on Content Category to create Masonry effect */
+  .media--tvc { aspect-ratio: 16/9; }
+  .media--key_visual { aspect-ratio: 4/3; }
+  .media--bao_bi { aspect-ratio: 1/1; }
+  .media--event { aspect-ratio: 3/2; }
+  .media--social { aspect-ratio: 1/1; }
+  .media--activation { aspect-ratio: 4/3; }
 
   .media img, .media video {
     width: 100%;
@@ -632,6 +607,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     font-size: 11px;
     font-weight: 700;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
   }
 
   .play-badge {
@@ -646,6 +622,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     font-weight: 800;
     letter-spacing: 0.5px;
     box-shadow: 0 3px 10px rgba(255, 241, 0, 0.3);
+    z-index: 1;
   }
 
   .body {
@@ -765,26 +742,27 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   .drawer-close {
     position: absolute;
     top: 24px;
-    left: -60px;
-    font-size: 28px;
-    width: 44px;
-    height: 44px;
+    right: 24px;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     color: var(--color-white);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    z-index: 15;
   }
 
   .drawer-close:hover {
     background: var(--color-yellow);
     color: var(--color-black);
     border-color: var(--color-yellow);
-    transform: scale(1.05);
+    transform: scale(1.05) rotate(90deg);
   }
 
   .drawer-body-wrapper {
@@ -795,7 +773,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   }
 
   .drawer-content {
-    padding: 60px 48px 48px;
+    padding: 80px 48px 48px;
     display: flex;
     flex-direction: column;
     gap: 40px;
@@ -806,10 +784,11 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   .drawer-header h2 {
     font-size: 38px;
     font-weight: 700;
-    margin: 16px 0;
+    margin: 16px 0 24px;
     line-height: 1.2;
     color: var(--color-white);
     letter-spacing: -0.5px;
+    padding-right: 48px; /* avoid overlapping close button */
   }
 
   .m-badges {
@@ -834,22 +813,27 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     border-color: var(--color-yellow);
   }
 
-  .m-meta-info {
-    display: flex;
-    gap: 32px;
-    margin-top: 16px;
+  .m-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    padding-top: 16px;
+    padding-top: 24px;
   }
 
-  .meta-item {
+  .meta-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 14px 18px;
+    border-radius: 14px;
     display: flex;
     flex-direction: column;
     gap: 4px;
   }
 
   .meta-label {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--color-muted);
     text-transform: uppercase;
     font-weight: 700;
@@ -858,7 +842,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   }
 
   .meta-val {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--color-white);
   }
@@ -914,7 +898,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   }
 
   .brief-content {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.15);
     padding: 24px;
     border-radius: 16px;
     font-size: 14.5px;
@@ -922,7 +906,8 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     color: var(--color-muted);
     max-height: 320px;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-left: 3px solid var(--color-yellow);
   }
 
   .brief-content p {
@@ -932,6 +917,12 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   .brief-content br {
     display: block;
     margin: 8px 0;
+  }
+
+  .empty-brief {
+    color: var(--color-muted);
+    opacity: 0.4;
+    font-style: italic;
   }
 
   /* Gallery Strip */
@@ -1113,6 +1104,12 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
   }
 
   /* Responsive Design */
+  @media (max-width: 992px) {
+    .grid {
+      column-count: 2;
+    }
+  }
+
   @media (max-width: 768px) {
     .portfolio {
       padding: 60px 16px 80px;
@@ -1138,13 +1135,7 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     }
 
     .grid {
-      grid-template-columns: 1fr;
-      grid-auto-rows: auto;
-    }
-
-    .card--standard, .card--wide, .card--tall {
-      grid-row: auto;
-      grid-column: auto;
+      column-count: 1;
     }
 
     .drawer-panel {
@@ -1153,10 +1144,9 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
     }
 
     .drawer-close {
-      left: auto;
-      right: 24px;
-      top: 16px;
-      background: rgba(255, 255, 255, 0.15);
+      right: 20px;
+      top: 20px;
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .drawer-content {
@@ -1167,8 +1157,8 @@ function getCardSizeClass(category: string, idx: number, hasVideo: boolean): str
       font-size: 28px;
     }
 
-    .m-meta-info {
-      gap: 16px;
+    .m-meta-grid {
+      gap: 12px;
     }
 
     .nav-title {
