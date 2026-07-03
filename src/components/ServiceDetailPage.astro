@@ -12,13 +12,13 @@ type Props = Readonly<{
 const { locale, detail } = Astro.props;
 const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
 const alternatePath = getServiceDetailPath(alternateLocale, detail);
-const pageTitle = `${detail.title[locale]} | TRÒN`;
+const pageTitle = `${detail.title[locale]} | Portfolio`;
 const isRetouchPage = detail.id === "digital-image-retouch";
 const isConsultingPage = detail.id === "integrated-marketing";
 const isTextPage = isRetouchPage || isConsultingPage;
 
 const retouchColumns = [
-  `TRÒN cung cấp trong gói dịch vụ chỉnh sửa hình ảnh chuyên nghiệp:
+  `tôi cung cấp trong gói dịch vụ chỉnh sửa hình ảnh chuyên nghiệp:
 Chỉnh sửa hậu kỳ ảnh sản phẩm
 + Hậu kỳ ảnh Ghost 3D Mannequin
 + Clipping Path
@@ -26,7 +26,7 @@ Chỉnh sửa hậu kỳ ảnh sản phẩm
 + Cân chỉnh màu sắc
 - High-end Model Retouch
 - Key Visual Manipulation`,
-  `Here are the four types of photo retouching services TRÒN provide:
+  `Here are the four types of photo retouching services I provide:
 - Ecommerce Product Photo Retouching Services
 + Invisible Ghost Mannequin Effect
 + Clipping Path
@@ -37,14 +37,14 @@ Chỉnh sửa hậu kỳ ảnh sản phẩm
 ] as const;
 
 const consultingColumns = [
-  `Sau nhiều năm kinh nghiệm cung cấp giải pháp hình ảnh, video sáng tạo, làm việc với vô số khách hàng thuộc mọi lĩnh vực, ngành nghề, TRÒN sẽ giúp bạn tạo nên "Cá tính" riêng với dịch vụ BRAND STYLE GUIDE CONSULTANT SERVICE, bao gồm:
+  `Sau nhiều năm kinh nghiệm cung cấp giải pháp hình ảnh, video sáng tạo, làm việc với vô số khách hàng thuộc mọi lĩnh vực, ngành nghề, tôi sẽ giúp bạn tạo nên "Cá tính" riêng với dịch vụ BRAND STYLE GUIDE CONSULTANT SERVICE, bao gồm:
 
 1. Tìm hiểu thị trường, nhu cầu thị hiếu, kênh sử dụng, đối tượng khách hàng
 
 2. Lên ý tưởng và Xây dựng hình ảnh, cá tính riêng của thương hiệu dựa trên những phân đánh giá, tìm hiểu thị trường (từ màu sắc chủ đạo, màu sắc phối kèm, voice and tone, hình ảnh, videos, ...)
 
 3. Thực hiện và thực thi ý tưởng thành kết quả (chụp hình ảnh, video, thiết kế - design, manipulate, ...)`,
-  `After years of experience providing creative image and video solutions and working with countless clients across various industries, TRÒN is here to help you establish your unique "Personality" with our BRAND STYLE GUIDE CONSULTANT SERVICE, which includes:
+  `After years of experience providing creative image and video solutions and working with countless clients across various industries, I am here to help you establish your unique "Personality" with our BRAND STYLE GUIDE CONSULTANT SERVICE, which includes:
 
 1. Market research, understanding consumer preferences, channel usage, and target audience.
 
@@ -89,7 +89,7 @@ const consultingColumns = [
           <section class="service-detail__cover reveal">
             <img src={detail.hero.src} alt={detail.hero.alt[locale]} />
           </section>
-          <p class="service-detail__eyebrow reveal">Consulting by TRÒN</p>
+          <p class="service-detail__eyebrow reveal">Consulting</p>
           <h1 class="service-detail__text-title service-detail__text-title--consulting reveal">
             Brand Style Guide Consultant Service
           </h1>

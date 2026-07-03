@@ -1,7 +1,7 @@
 import type { ImageAsset, Locale, LocalizedText, ServiceId } from "@/data/site";
 import { getLocalizedPath } from "@/data/site";
 
-export type ServiceDetailSection = Readonly<{
+type ServiceDetailSection = Readonly<{
   title: LocalizedText;
   body: LocalizedText;
 }>;
@@ -37,7 +37,7 @@ const section = (title: LocalizedText, body: LocalizedText): ServiceDetailSectio
   body,
 });
 
-export const serviceDetails: readonly ServiceDetail[] = [
+const serviceDetails: readonly ServiceDetail[] = [
   {
     id: "commercial",
     canonicalSlug: "commercial-campaign",
@@ -46,7 +46,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Commercial Campaign", "Commercial Campaign"),
     shortTitle: text("Commercial", "Commercial"),
     hero: image(
-      "/assets/tronhouse/service-commercial/cover-fb-75d2016aa4.png",
+      "/assets/portfolio/service-commercial/cover-fb-75d2016aa4.png",
       "Commercial campaign cover",
       "Commercial campaign cover",
     ),
@@ -58,8 +58,8 @@ export const serviceDetails: readonly ServiceDetail[] = [
       section(
         text("Concept-first production", "Concept-first production"),
         text(
-          "TRÒN bắt đầu từ mục tiêu truyền thông, sản phẩm và bối cảnh sử dụng để xây dựng mood, set design, ánh sáng và hậu kỳ nhất quán.",
-          "TRÒN starts from the communication goal, product and media context, then builds a consistent mood, set design, lighting and retouching direction.",
+          "Mình bắt đầu từ mục tiêu truyền thông, sản phẩm và bối cảnh sử dụng để xây dựng mood, set design, ánh sáng và hậu kỳ nhất quán.",
+          "I start from the communication goal, product and media context, then builds a consistent mood, set design, lighting and retouching direction.",
         ),
       ),
       section(
@@ -71,13 +71,13 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-commercial/chup-anh-concept-sang-tao-11-1-de0714cf60.png", "Ảnh concept sáng tạo", "Creative concept image"),
-      image("/assets/tronhouse/service-commercial/980398208253191-66eb891c20fd4-e52b29cb19.jpg", "Thiên hoa sắc nguyệt", "Mooncake campaign visual"),
-      image("/assets/tronhouse/service-commercial/vuong-a7978c7ea4.gif", "Campaign visual động", "Animated campaign visual"),
-      image("/assets/tronhouse/service-commercial/cleanser-final-archived-fb-f5e47451f8.jpg", "Ảnh sản phẩm cleanser", "Cleanser product image"),
-      image("/assets/tronhouse/service-commercial/rsz-1th-white1-11fef30035.png", "Ảnh thương mại sản phẩm", "Commercial product image"),
-      image("/assets/tronhouse/service-commercial/banner-web-mobile-68289326f2.gif", "Banner campaign mobile", "Mobile campaign banner"),
-      image("/assets/tronhouse/service-commercial/crop-thumbs-412cf512e9.jpg", "Commercial thumbnail", "Commercial thumbnail"),
+      image("/assets/portfolio/service-commercial/chup-anh-concept-sang-tao-11-1-de0714cf60.png", "Ảnh concept sáng tạo", "Creative concept image"),
+      image("/assets/portfolio/service-commercial/980398208253191-66eb891c20fd4-e52b29cb19.jpg", "Thiên hoa sắc nguyệt", "Mooncake campaign visual"),
+      image("/assets/portfolio/service-commercial/vuong-a7978c7ea4.gif", "Campaign visual động", "Animated campaign visual"),
+      image("/assets/portfolio/service-commercial/cleanser-final-archived-fb-f5e47451f8.jpg", "Ảnh sản phẩm cleanser", "Cleanser product image"),
+      image("/assets/portfolio/service-commercial/rsz-1th-white1-11fef30035.png", "Ảnh thương mại sản phẩm", "Commercial product image"),
+      image("/assets/portfolio/service-commercial/banner-web-mobile-68289326f2.gif", "Banner campaign mobile", "Mobile campaign banner"),
+      image("/assets/portfolio/service-commercial/crop-thumbs-412cf512e9.jpg", "Commercial thumbnail", "Commercial thumbnail"),
     ],
     localeContent: {
       vi: [
@@ -98,7 +98,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Fashion Campaign", "Fashion Campaign"),
     shortTitle: text("Fashion", "Fashion"),
     hero: image(
-      "/assets/tronhouse/service-fashion/chup-hinh-lookbook-cover-c6baf08d11.jpg",
+      "/assets/portfolio/service-fashion/chup-hinh-lookbook-cover-c6baf08d11.jpg",
       "Fashion campaign cover",
       "Fashion campaign cover",
     ),
@@ -123,12 +123,12 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-fashion/unispace-thumb-dv-1-e4cfc69756.jpg", "Fashion lookbook Unispace", "Unispace fashion lookbook"),
-      image("/assets/tronhouse/service-fashion/unispace-thumb-dv-02-0d13fca2cc.jpg", "Fashion visual Unispace", "Unispace fashion visual"),
-      image("/assets/tronhouse/service-fashion/000elegant-e337a66df8.jpg", "Elegant fashion visual", "Elegant fashion visual"),
-      image("/assets/tronhouse/service-fashion/6-0a69b11fb8.jpg", "Fashion campaign image", "Fashion campaign image"),
-      image("/assets/tronhouse/service-fashion/thumb-597700df6d.png", "Fashion thumbnail", "Fashion thumbnail"),
-      image("/assets/tronhouse/service-fashion/beautyplus-20221104100716413-save-3be480b2c5.jpg", "Fashion portrait", "Fashion portrait"),
+      image("/assets/portfolio/service-fashion/unispace-thumb-dv-1-e4cfc69756.jpg", "Fashion lookbook Unispace", "Unispace fashion lookbook"),
+      image("/assets/portfolio/service-fashion/unispace-thumb-dv-02-0d13fca2cc.jpg", "Fashion visual Unispace", "Unispace fashion visual"),
+      image("/assets/portfolio/service-fashion/000elegant-e337a66df8.jpg", "Elegant fashion visual", "Elegant fashion visual"),
+      image("/assets/portfolio/service-fashion/6-0a69b11fb8.jpg", "Fashion campaign image", "Fashion campaign image"),
+      image("/assets/portfolio/service-fashion/thumb-597700df6d.png", "Fashion thumbnail", "Fashion thumbnail"),
+      image("/assets/portfolio/service-fashion/beautyplus-20221104100716413-save-3be480b2c5.jpg", "Fashion portrait", "Fashion portrait"),
     ],
     localeContent: {
       vi: [
@@ -149,7 +149,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Creative Concept", "Creative Concept"),
     shortTitle: text("Creative Design", "Creative Design"),
     hero: image(
-      "/assets/tronhouse/service-creative-concept/khung-ngang-thumb-insid-5872fb4d36.jpg",
+      "/assets/portfolio/service-creative-concept/khung-ngang-thumb-insid-5872fb4d36.jpg",
       "Creative concept cover",
       "Creative concept cover",
     ),
@@ -174,12 +174,12 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-creative-concept/trung-thu-7d57d88379.jpg", "Creative concept Trung Thu", "Mid-autumn creative concept"),
-      image("/assets/tronhouse/service-creative-concept/0cheese-f4072adc6c.jpg", "Creative food concept", "Creative food concept"),
-      image("/assets/tronhouse/service-creative-concept/ezgif-com-gif-maker-74d4c27280.gif", "Creative concept animation", "Creative concept animation"),
-      image("/assets/tronhouse/service-creative-concept/balo-opt4-no-text-vuong-1-b89067aa4c.jpg", "Product creative concept", "Product creative concept"),
-      image("/assets/tronhouse/service-creative-concept/main-sequence-0606-sub-0100-26cc2c4e7d.jpg", "CGI concept frame", "CGI concept frame"),
-      image("/assets/tronhouse/service-creative-concept/thumb-a4e693b2b7.jpg", "Creative thumbnail", "Creative thumbnail"),
+      image("/assets/portfolio/service-creative-concept/trung-thu-7d57d88379.jpg", "Creative concept Trung Thu", "Mid-autumn creative concept"),
+      image("/assets/portfolio/service-creative-concept/0cheese-f4072adc6c.jpg", "Creative food concept", "Creative food concept"),
+      image("/assets/portfolio/service-creative-concept/ezgif-com-gif-maker-74d4c27280.gif", "Creative concept animation", "Creative concept animation"),
+      image("/assets/portfolio/service-creative-concept/balo-opt4-no-text-vuong-1-b89067aa4c.jpg", "Product creative concept", "Product creative concept"),
+      image("/assets/portfolio/service-creative-concept/main-sequence-0606-sub-0100-26cc2c4e7d.jpg", "CGI concept frame", "CGI concept frame"),
+      image("/assets/portfolio/service-creative-concept/thumb-a4e693b2b7.jpg", "Creative thumbnail", "Creative thumbnail"),
     ],
     localeContent: {
       vi: [
@@ -200,7 +200,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("TVC Videography Film", "TVC Videography Film"),
     shortTitle: text("Commercial Videography", "Commercial Videography"),
     hero: image(
-      "/assets/tronhouse/service-videography/3d-animation-2d16be8ed1.jpg",
+      "/assets/portfolio/service-videography/3d-animation-2d16be8ed1.jpg",
       "Commercial videography cover",
       "Commercial videography cover",
     ),
@@ -225,10 +225,10 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-videography/2b-f5a52c50a8.png", "Videography frame", "Videography frame"),
-      image("/assets/tronhouse/service-videography/corporation-7c97a485b4.jpg", "Corporate video", "Corporate video"),
-      image("/assets/tronhouse/service-videography/fashion-thumb-0d157ca37f.jpg", "Fashion video", "Fashion video"),
-      image("/assets/tronhouse/service-videography/thumb-moi-1916a65dc5.gif", "Stop motion video", "Stop motion video"),
+      image("/assets/portfolio/service-videography/2b-f5a52c50a8.png", "Videography frame", "Videography frame"),
+      image("/assets/portfolio/service-videography/corporation-7c97a485b4.jpg", "Corporate video", "Corporate video"),
+      image("/assets/portfolio/service-videography/fashion-thumb-0d157ca37f.jpg", "Fashion video", "Fashion video"),
+      image("/assets/portfolio/service-videography/thumb-moi-1916a65dc5.gif", "Stop motion video", "Stop motion video"),
     ],
     localeContent: {
       vi: [
@@ -249,7 +249,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Catalogue Ecommerce", "Catalogue Ecommerce"),
     shortTitle: text("Catalogue Ecommerce", "Catalogue Ecommerce"),
     hero: image(
-      "/assets/tronhouse/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
+      "/assets/portfolio/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
       "Catalogue ecommerce preview",
       "Catalogue ecommerce preview",
     ),
@@ -274,10 +274,10 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/home/dich-vu-cata-800-1068-px-06bf8e6505.gif", "Catalogue ecommerce motion", "Catalogue ecommerce motion"),
-      image("/assets/tronhouse/home/amazon-final-77423225dd.png", "Amazon logo", "Amazon logo"),
-      image("/assets/tronhouse/home/lazada-9b63437c3f.png", "Lazada logo", "Lazada logo"),
-      image("/assets/tronhouse/home/ikea-final-2b83fd3f5c.png", "IKEA logo", "IKEA logo"),
+      image("/assets/portfolio/home/dich-vu-cata-800-1068-px-06bf8e6505.gif", "Catalogue ecommerce motion", "Catalogue ecommerce motion"),
+      image("/assets/portfolio/home/amazon-final-77423225dd.png", "Amazon logo", "Amazon logo"),
+      image("/assets/portfolio/home/lazada-9b63437c3f.png", "Lazada logo", "Lazada logo"),
+      image("/assets/portfolio/home/ikea-final-2b83fd3f5c.png", "IKEA logo", "IKEA logo"),
     ],
     localeContent: {
       vi: [
@@ -298,7 +298,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Digital Image Retouch", "Digital Image Retouch"),
     shortTitle: text("Digital Image Retouch", "Digital Image Retouch"),
     hero: image(
-      "/assets/tronhouse/service-retouch/untitled-2-894d4c0aee.gif",
+      "/assets/portfolio/service-retouch/untitled-2-894d4c0aee.gif",
       "Digital image retouch before after",
       "Digital image retouch before after",
     ),
@@ -323,9 +323,9 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-retouch/untitled-2-894d4c0aee.gif", "Retouch comparison one", "Retouch comparison one"),
-      image("/assets/tronhouse/service-retouch/step-111f2ddb0d.gif", "Retouch workflow step", "Retouch workflow step"),
-      image("/assets/tronhouse/service-retouch/untitled-3-44f878f617.gif", "Retouch comparison two", "Retouch comparison two"),
+      image("/assets/portfolio/service-retouch/untitled-2-894d4c0aee.gif", "Retouch comparison one", "Retouch comparison one"),
+      image("/assets/portfolio/service-retouch/step-111f2ddb0d.gif", "Retouch workflow step", "Retouch workflow step"),
+      image("/assets/portfolio/service-retouch/untitled-3-44f878f617.gif", "Retouch comparison two", "Retouch comparison two"),
     ],
     localeContent: {
       vi: [
@@ -346,7 +346,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("Integrated Marketing Communication", "Integrated Marketing Communication"),
     shortTitle: text("IMC", "IMC"),
     hero: image(
-      "/assets/tronhouse/service-imc/bg-tu-van-chien-luoc-74b42a6748.jpg",
+      "/assets/portfolio/service-imc/bg-tu-van-chien-luoc-74b42a6748.jpg",
       "Integrated marketing communication background",
       "Integrated marketing communication background",
     ),
@@ -371,10 +371,10 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-imc/bg-tu-van-chien-luoc-74b42a6748.jpg", "Brand style guide background", "Brand style guide background"),
-      image("/assets/tronhouse/home/brand1-c2f5e204b6.gif", "Brand guide service motion", "Brand guide service motion"),
-      image("/assets/tronhouse/home/all-0008-sony-1-11a297f028.png", "Sony client mark", "Sony client mark"),
-      image("/assets/tronhouse/home/all-0005-vivo-4486d770b9.png", "Vivo client mark", "Vivo client mark"),
+      image("/assets/portfolio/service-imc/bg-tu-van-chien-luoc-74b42a6748.jpg", "Brand style guide background", "Brand style guide background"),
+      image("/assets/portfolio/home/brand1-c2f5e204b6.gif", "Brand guide service motion", "Brand guide service motion"),
+      image("/assets/portfolio/home/all-0008-sony-1-11a297f028.png", "Sony client mark", "Sony client mark"),
+      image("/assets/portfolio/home/all-0005-vivo-4486d770b9.png", "Vivo client mark", "Vivo client mark"),
     ],
     localeContent: {
       vi: [
@@ -395,7 +395,7 @@ export const serviceDetails: readonly ServiceDetail[] = [
     title: text("2D - 3D Animation Video Campaign", "2D - 3D Animation Video Campaign"),
     shortTitle: text("2D - 3D Animation Videography", "2D - 3D Animation Videography"),
     hero: image(
-      "/assets/tronhouse/service-animation/cover-fb-0310-f99ecb726b.jpg",
+      "/assets/portfolio/service-animation/cover-fb-0310-f99ecb726b.jpg",
       "2D 3D animation cover",
       "2D 3D animation cover",
     ),
@@ -420,12 +420,12 @@ export const serviceDetails: readonly ServiceDetail[] = [
       ),
     ],
     gallery: [
-      image("/assets/tronhouse/service-animation/screenshot-1955-a645bd25e1.png", "Animation campaign frame", "Animation campaign frame"),
-      image("/assets/tronhouse/service-animation/bahari-efc96f2a5f.png", "3D campaign Bahari", "Bahari 3D campaign"),
-      image("/assets/tronhouse/service-animation/genesis-thumbnail-57b0018af4.jpg", "Genesis animation thumbnail", "Genesis animation thumbnail"),
-      image("/assets/tronhouse/service-animation/behance-cover-248aeb3701.jpg", "CGI visual cover", "CGI visual cover"),
-      image("/assets/tronhouse/service-animation/3dfashion-5eecf1733c.png", "3D fashion visual", "3D fashion visual"),
-      image("/assets/tronhouse/service-animation/behance-cover-manytouches-9d2f6492f2.jpg", "Many Touches animation cover", "Many Touches animation cover"),
+      image("/assets/portfolio/service-animation/screenshot-1955-a645bd25e1.png", "Animation campaign frame", "Animation campaign frame"),
+      image("/assets/portfolio/service-animation/bahari-efc96f2a5f.png", "3D campaign Bahari", "Bahari 3D campaign"),
+      image("/assets/portfolio/service-animation/genesis-thumbnail-57b0018af4.jpg", "Genesis animation thumbnail", "Genesis animation thumbnail"),
+      image("/assets/portfolio/service-animation/behance-cover-248aeb3701.jpg", "CGI visual cover", "CGI visual cover"),
+      image("/assets/portfolio/service-animation/3dfashion-5eecf1733c.png", "3D fashion visual", "3D fashion visual"),
+      image("/assets/portfolio/service-animation/behance-cover-manytouches-9d2f6492f2.jpg", "Many Touches animation cover", "Many Touches animation cover"),
     ],
     localeContent: {
       vi: [
@@ -458,10 +458,9 @@ const buildServiceDetailSlugMap = (): ReadonlyMap<string, ServiceDetail> => {
   return slugMap;
 };
 
-export const serviceDetailSlugMap = buildServiceDetailSlugMap();
+const serviceDetailSlugMap = buildServiceDetailSlugMap();
 
-export const getServiceDetailBySlug = (slug: string): ServiceDetail | undefined =>
-  serviceDetailSlugMap.get(slug);
+
 
 export const getServiceDetailPath = (locale: Locale, detail: ServiceDetail): string =>
   getLocalizedPath(locale, `/${detail.canonicalSlug}`);

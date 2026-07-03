@@ -7,7 +7,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "collect:assets": "node scripts/collect-tronhouse-assets.mjs",
+    "collect:assets": "node scripts/collect-assets.mjs",
     "qa:capture:source": "node scripts/qa-capture.mjs source",
     "qa:capture:local": "node scripts/qa-capture.mjs local",
     "qa:compare": "node scripts/qa-compare.mjs"

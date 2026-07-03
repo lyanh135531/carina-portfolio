@@ -61,7 +61,7 @@ export type PageMeta = Readonly<{
 
 export const defaultLocale: Locale = "vi";
 
-export const locales: readonly Locale[] = ["vi", "en"];
+const locales: readonly Locale[] = ["vi", "en"];
 
 export const navigationItems: readonly NavItem[] = [
   {
@@ -72,20 +72,20 @@ export const navigationItems: readonly NavItem[] = [
   {
     pageId: "services",
     label: { vi: "Portfolio", en: "Portfolio" },
-    path: "/tron-services",
+    path: "/services",
   },
   {
     pageId: "about",
     label: { vi: "Freelancer", en: "Freelancer" },
-    path: "/about-tron",
+    path: "/about",
   },
 ];
 
 export const routeByPageId: Readonly<Record<PageId, string>> = {
   home: "/",
-  services: "/tron-services",
-  about: "/about-tron",
-  credential: "/tron-credential",
+  services: "/services",
+  about: "/about",
+  credential: "/credential",
   blog: "/blog",
   contact: "/contact",
 };
@@ -118,8 +118,8 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
     },
   },
   services: {
-    title: { vi: "Tròn Service", en: "Tròn Service" },
-    mobileTitle: { vi: "Dịch Vụ Tròn House", en: "Tròn Service" },
+    title: { vi: "Services", en: "Services" },
+    mobileTitle: { vi: "Dịch Vụ", en: "Services" },
     kicker: { vi: "Dịch vụ sáng tạo", en: "Creative Services" },
   },
   about: {
@@ -140,17 +140,17 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
   contact: {
     title: { vi: "Contact", en: "Contact" },
     mobileTitle: { vi: "Contact", en: "Contact" },
-    kicker: { vi: "Contact Tròn", en: "Contact Tròn" },
+    kicker: { vi: "Contact", en: "Contact" },
   },
 };
 
 export const assets = {
-  logo: "/assets/tronhouse/home/logo.jpg",
-  orbitLogo: "/assets/tronhouse/home/render-final-yellow-square-1-1dca030dd7.gif",
-  cosmicHero: "/assets/tronhouse/home/anh-nen-cover-b32bbfbf9e.jpg",
-  serviceHero: "/assets/tronhouse/services/cover-fb-0310-dfc90a463b.jpg",
-  homeCampaignA: "/assets/tronhouse/home/1759489307168-5aba5c97eb.png",
-  homeCampaignB: "/assets/tronhouse/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
+  logo: "/assets/portfolio/home/logo.jpg",
+  orbitLogo: "/assets/portfolio/home/render-final-yellow-square-1-1dca030dd7.gif",
+  cosmicHero: "/assets/portfolio/home/anh-nen-cover-b32bbfbf9e.jpg",
+  serviceHero: "/assets/portfolio/services/cover-fb-0310-dfc90a463b.jpg",
+  homeCampaignA: "/assets/portfolio/home/1759489307168-5aba5c97eb.png",
+  homeCampaignB: "/assets/portfolio/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
 } as const;
 
 export const services: readonly ServiceItem[] = [
@@ -159,7 +159,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Commercial", en: "Commercial" },
     href: "/commercial-campaign",
     image: {
-      src: "/assets/tronhouse/home/dich-vu-commercial-800-1068-px-1-4a802baadb.gif",
+      src: "/assets/portfolio/home/dich-vu-commercial-800-1068-px-1-4a802baadb.gif",
       alt: { vi: "Commercial campaign", en: "Commercial campaign" },
     },
   },
@@ -168,7 +168,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Fashion", en: "Fashion" },
     href: "/fashion-campaign",
     image: {
-      src: "/assets/tronhouse/home/dv-fashion-b8310eec39.gif",
+      src: "/assets/portfolio/home/dv-fashion-b8310eec39.gif",
       alt: { vi: "Fashion campaign", en: "Fashion campaign" },
     },
   },
@@ -177,7 +177,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Creative Design", en: "Creative Design" },
     href: "/creative-concept",
     image: {
-      src: "/assets/tronhouse/home/dich-vu-creative-800-1068-px-c2c63ea8e1.gif",
+      src: "/assets/portfolio/home/dich-vu-creative-800-1068-px-c2c63ea8e1.gif",
       alt: { vi: "Creative design", en: "Creative design" },
     },
   },
@@ -186,7 +186,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Commercial Videography", en: "Commercial Videography" },
     href: "/tvc-videography-film",
     image: {
-      src: "/assets/tronhouse/home/dv-video-final-4e151314e6.gif",
+      src: "/assets/portfolio/home/dv-video-final-4e151314e6.gif",
       alt: { vi: "Commercial videography", en: "Commercial videography" },
     },
   },
@@ -195,7 +195,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Catalogue Ecommerce", en: "Catalogue Ecommerce" },
     href: "/catalogue-ecommerce",
     image: {
-      src: "/assets/tronhouse/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
+      src: "/assets/portfolio/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
       alt: { vi: "Catalogue ecommerce", en: "Catalogue ecommerce" },
     },
   },
@@ -204,7 +204,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "Digital Image Retouch", en: "Digital Image Retouch" },
     href: "/digital-image-retouch",
     image: {
-      src: "/assets/tronhouse/home/dich-vu-di-800-1068-px-1-c55ae648b0.gif",
+      src: "/assets/portfolio/home/dich-vu-di-800-1068-px-1-c55ae648b0.gif",
       alt: { vi: "Digital image retouch", en: "Digital image retouch" },
     },
   },
@@ -216,7 +216,7 @@ export const services: readonly ServiceItem[] = [
     },
     href: "/IMC",
     image: {
-      src: "/assets/tronhouse/home/brand1-c2f5e204b6.gif",
+      src: "/assets/portfolio/home/brand1-c2f5e204b6.gif",
       alt: {
         vi: "Integrated marketing communication",
         en: "Integrated marketing communication",
@@ -228,7 +228,7 @@ export const services: readonly ServiceItem[] = [
     title: { vi: "2D - 3D Animation Videography", en: "2D - 3D Animation Videography" },
     href: "/2D-3D-animation-cgi",
     image: {
-      src: "/assets/tronhouse/home/dich-vu-2d-3d-1-1c563cb859.gif",
+      src: "/assets/portfolio/home/dich-vu-2d-3d-1-1c563cb859.gif",
       alt: { vi: "2D and 3D animation", en: "2D and 3D animation" },
     },
   },
@@ -246,7 +246,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "Design in 2026 moves beyond polished visuals toward emotional, authentic and human-centered experiences after the AI boom.",
     },
     image: {
-      src: "/assets/tronhouse/home/images-1-1-979ded4238.jpg",
+      src: "/assets/portfolio/home/images-1-1-979ded4238.jpg",
       alt: { vi: "Xu hướng thiết kế 2026", en: "Design trends 2026" },
     },
   },
@@ -261,7 +261,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "AI is becoming familiar in modern design workflows, helping teams move from manual tasks to strategy, experience and overall quality.",
     },
     image: {
-      src: "/assets/tronhouse/home/1759489307168-5aba5c97eb.png",
+      src: "/assets/portfolio/home/1759489307168-5aba5c97eb.png",
       alt: { vi: "Designer và AI", en: "Designer and AI" },
     },
   },
@@ -276,7 +276,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "In many design rooms, first ideas now come from prompts, datasets or AI simulations proposed in seconds.",
     },
     image: {
-      src: "/assets/tronhouse/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
+      src: "/assets/portfolio/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
       alt: { vi: "AI và thời trang", en: "AI and fashion" },
     },
   },
@@ -291,7 +291,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "AI is changing how brands analyze data, develop ideas, personalize messages and measure campaign performance.",
     },
     image: {
-      src: "/assets/tronhouse/blog/hinh-anh-23-04-2026-luc-14-06-5d63094b40.jpg",
+      src: "/assets/portfolio/blog/hinh-anh-23-04-2026-luc-14-06-5d63094b40.jpg",
       alt: { vi: "Ứng dụng AI trong marketing", en: "AI in marketing" },
     },
   },
@@ -306,7 +306,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "AI image tools unlock faster creative workflows for concepts, moodboards and brand visual experiments.",
     },
     image: {
-      src: "/assets/tronhouse/blog/tao-anh-bang-ai-ee4f8a976d.png",
+      src: "/assets/portfolio/blog/tao-anh-bang-ai-ee4f8a976d.png",
       alt: { vi: "Công cụ tạo ảnh bằng AI", en: "AI image tools" },
     },
   },
@@ -321,7 +321,7 @@ export const blogPosts: readonly BlogPost[] = [
       en: "From content optimization to ad recommendations, AI is becoming a practical assistant for ecommerce sellers.",
     },
     image: {
-      src: "/assets/tronhouse/blog/amazon-a8a04d6dce.jpg",
+      src: "/assets/portfolio/blog/amazon-a8a04d6dce.jpg",
       alt: { vi: "Amazon và AI", en: "Amazon and AI" },
     },
   },
@@ -331,70 +331,70 @@ export const credentials: readonly CredentialItem[] = [
   {
     title: { vi: "2D Animation 3D CGI VFX", en: "2D Animation 3D CGI VFX" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-2d-3d-cgi-96e98a5a2f.gif",
+      src: "/assets/portfolio/credential/thumbnail-2d-3d-cgi-96e98a5a2f.gif",
       alt: { vi: "2D 3D CGI credential", en: "2D 3D CGI credential" },
     },
   },
   {
     title: { vi: "Amazon", en: "Amazon" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-amazon-0f7d8e2744.gif",
+      src: "/assets/portfolio/credential/thumbnail-amazon-0f7d8e2744.gif",
       alt: { vi: "Amazon credential", en: "Amazon credential" },
     },
   },
   {
     title: { vi: "Homeliving Interior", en: "Homeliving Interior" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-homeliving-e741324341.gif",
+      src: "/assets/portfolio/credential/thumbnail-homeliving-e741324341.gif",
       alt: { vi: "Homeliving interior credential", en: "Homeliving interior credential" },
     },
   },
   {
     title: { vi: "Fashion Credential", en: "Fashion Credential" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-fashion-c425885c21.png",
+      src: "/assets/portfolio/credential/thumbnail-fashion-c425885c21.png",
       alt: { vi: "Fashion credential", en: "Fashion credential" },
     },
   },
   {
     title: { vi: "Design", en: "Design" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-design-94a1243cf0.png",
+      src: "/assets/portfolio/credential/thumbnail-design-94a1243cf0.png",
       alt: { vi: "Design credential", en: "Design credential" },
     },
   },
   {
     title: { vi: "Food Credential", en: "Food Credential" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-fb-be5a552c1d.png",
+      src: "/assets/portfolio/credential/thumbnail-fb-be5a552c1d.png",
       alt: { vi: "Food credential", en: "Food credential" },
     },
   },
   {
     title: { vi: "Jewelry Credential", en: "Jewelry Credential" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-jewelry-f8f7170c62.png",
+      src: "/assets/portfolio/credential/thumbnail-jewelry-f8f7170c62.png",
       alt: { vi: "Jewelry credential", en: "Jewelry credential" },
     },
   },
   {
     title: { vi: "Sportwear", en: "Sportwear" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-sportwear-03c8ceb490.png",
+      src: "/assets/portfolio/credential/thumbnail-sportwear-03c8ceb490.png",
       alt: { vi: "Sportwear credential", en: "Sportwear credential" },
     },
   },
   {
     title: { vi: "Kids", en: "Kids" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-kids-8ac5d7ae27.png",
+      src: "/assets/portfolio/credential/thumbnail-kids-8ac5d7ae27.png",
       alt: { vi: "Kids credential", en: "Kids credential" },
     },
   },
   {
     title: { vi: "Business Profile", en: "Business Profile" },
     image: {
-      src: "/assets/tronhouse/credential/thumbnail-profile-f2be92a3f9.gif",
+      src: "/assets/portfolio/credential/thumbnail-profile-f2be92a3f9.gif",
       alt: { vi: "Business profile credential", en: "Business profile credential" },
     },
   },
@@ -407,13 +407,13 @@ export const aboutBlocks: readonly AboutBlock[] = [
       en: "Dare To Break Patterns - To Unlearn, To Feel, To Begin Again",
     },
     vi: [
-      "TRÒN là một fullstack creative marketing agency với tư duy đột phá, nơi những ý tưởng táo bạo được chuyển hóa thành giải pháp chiến lược, kết hợp nhuần nhuyễn giữa sáng tạo, công nghệ và dữ liệu.",
-      "Chúng tôi không chỉ tạo chiến dịch, mà tìm kiếm những đột phá thực sự trong từng chiến dịch. Với TRÒN, sáng tạo không dừng ở ý tưởng, đó là chìa khóa để thương hiệu vượt qua giới hạn.",
-      "TRÒN ứng dụng công nghệ và AI không để thay thế, mà để khuếch đại sáng tạo. Để những ý tưởng đi sâu hơn, chạm đến cảm xúc nhiều hơn và tạo ra tác động có chủ đích.",
+      "Mình tin rằng một dự án thành công không chỉ bắt đầu từ ý tưởng tốt, mà từ việc mọi người cùng hiểu đúng mục tiêu, phối hợp đúng nhịp.",
+      "Chúng tôi không chỉ tạo chiến dịch, mà tìm kiếm những đột phá thực sự trong từng chiến dịch. Với mình, điều phối công việc là tạo ra sự kết nối đủ rõ ràng để mọi ý tưởng có thể được triển khai hiệu quả nhất.",
+      "Mình ứng dụng công nghệ và AI không để thay thế, mà để khuếch đại sáng tạo. Để những ý tưởng đi sâu hơn, chạm đến cảm xúc nhiều hơn và tạo ra tác động có chủ đích.",
     ],
     en: [
-      "TRÒN is a breakthrough full stack creative marketing agency where daring ideas meet strategic execution, blending creativity, technology and data to unlock brand potential.",
-      "We are not just creating campaigns, we create breakthroughs. At TRÒN, creativity is more than expression; it is a business force.",
+      "I believe a successful project begins with people understanding the same goal, moving in the same rhythm and working toward one shared outcome.",
+      "We are not just creating campaigns, we create breakthroughs. More than coordinating tasks, I create the clarity that helps ideas move into execution effectively.",
       "We use technology and AI not to replace creativity, but to amplify it, go deeper, feel more and create with intention.",
     ],
   },
@@ -424,28 +424,14 @@ export const aboutBlocks: readonly AboutBlock[] = [
     },
     vi: [
       "Chúng tôi không chỉ theo đuổi sự tăng trưởng, mà tìm kiếm sự phát triển trọn vẹn cho thương hiệu và cho cả những người ở phía sau thương hiệu.",
-      "Tại TRÒN, chúng tôi không chỉ xây dựng chiến dịch, mà kiến tạo một văn hóa nơi sự sáng tạo được nuôi dưỡng, con người được phát triển và những chuẩn mực mới được định hình.",
-      "Với đội ngũ kinh nghiệm từng hợp tác cùng nhiều thương hiệu lớn tại Việt Nam lẫn quốc tế, TRÒN tự tin cùng bạn đưa ra các phương án tối ưu nhất.",
+      "Trong công việc, mình không chỉ triển khai dự án, mà kiến tạo một văn hóa nơi sự sáng tạo được nuôi dưỡng, con người được phát triển và những chuẩn mực mới được định hình.",
+      "Với đội ngũ kinh nghiệm từng hợp tác cùng nhiều thương hiệu lớn tại Việt Nam lẫn quốc tế, mình tự tin cùng bạn đưa ra các phương án tối ưu nhất.",
     ],
     en: [
       "We do not just pursue growth. We pursue the fullest expression of growth for brands and for the people behind them.",
-      "At TRÒN, we build a culture where creativity flourishes, individuals thrive and new standards for the creative industry are shaped.",
-      "With experience collaborating with major brands in Vietnam and internationally, TRÒN is ready to craft practical, measurable creative solutions.",
+      "I aim to build an environment where creativity flourishes, individuals thrive and new standards for the creative industry are shaped.",
+      "With experience collaborating with major brands in Vietnam and internationally, I am ready to craft practical, measurable creative solutions.",
     ],
   },
 ];
 
-export const clientLogos: readonly ImageAsset[] = [
-  { src: "/assets/tronhouse/home/acfc-0072a7cd09.png", alt: { vi: "ACFC", en: "ACFC" } },
-  { src: "/assets/tronhouse/home/thien-long-db58e73c67.png", alt: { vi: "Thiên Long", en: "Thien Long" } },
-  { src: "/assets/tronhouse/home/masan-consumer-4e90d4eef6.png", alt: { vi: "Masan", en: "Masan" } },
-  { src: "/assets/tronhouse/home/nike-by-acfc-7bbf768e4f.png", alt: { vi: "Nike", en: "Nike" } },
-  { src: "/assets/tronhouse/home/vietnam-airlines-47eb9696d4.png", alt: { vi: "Vietnam Airlines", en: "Vietnam Airlines" } },
-  { src: "/assets/tronhouse/home/amazon-final-77423225dd.png", alt: { vi: "Amazon", en: "Amazon" } },
-  { src: "/assets/tronhouse/home/ikea-final-2b83fd3f5c.png", alt: { vi: "IKEA", en: "IKEA" } },
-  { src: "/assets/tronhouse/home/couple-tx-5ec14b8e1d.png", alt: { vi: "Couple TX", en: "Couple TX" } },
-  { src: "/assets/tronhouse/home/lazada-9b63437c3f.png", alt: { vi: "Lazada", en: "Lazada" } },
-  { src: "/assets/tronhouse/home/all-0000-nivea-fix-cb7b2b28e5.png", alt: { vi: "Nivea", en: "Nivea" } },
-  { src: "/assets/tronhouse/home/all-0008-sony-1-11a297f028.png", alt: { vi: "Sony", en: "Sony" } },
-  { src: "/assets/tronhouse/home/all-0005-vivo-4486d770b9.png", alt: { vi: "Vivo", en: "Vivo" } },
-];

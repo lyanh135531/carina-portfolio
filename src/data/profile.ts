@@ -1,8 +1,8 @@
 import type { Locale, LocalizedText } from "@/data/site";
 
-export type LocalizedList = Readonly<Record<Locale, readonly string[]>>;
+type LocalizedList = Readonly<Record<Locale, readonly string[]>>;
 
-export type ProfileMetric = Readonly<{
+type ProfileMetric = Readonly<{
   value: LocalizedText;
   label: LocalizedText;
 }>;

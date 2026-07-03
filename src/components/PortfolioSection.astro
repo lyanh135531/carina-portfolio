@@ -215,21 +215,23 @@ const categoriesJson = JSON.stringify(portfolioCategories);
 
       // Gallery strip block (only show if there's more than 1 asset to avoid duplicates)
       let galleryHTML = '';
-      if (proj.gallery && proj.gallery.length > 1) {
-        galleryHTML = `
-          <div class="gallery-strip">
-            <div class="gallery-label">Project Gallery (${proj.gallery.length} assets)</div>
-            <div class="gallery-thumbs">
-              ${proj.gallery.map((src, idx) => {
-                const isVideo = src.endsWith('.mp4');
-                const activeClass = (src === proj.thumbnail) ? 'active' : '';
-                return isVideo 
-                  ? `<div class="thumb video-thumb ${activeClass}" data-src="${src}" data-type="video"><span>▶</span></div>`
-                  : `<img class="thumb ${activeClass}" src="${src}" data-src="${src}" data-type="image" alt="Asset ${idx+1}" />`;
-              }).join('')}
+      if (proj.gallery && proj.gallery.length > 0) {
+        const uniqueGallery = [...new Set(proj.gallery)];
+        if (uniqueGallery.length > 1) {
+          galleryHTML = `
+            <div class="gallery-strip">
+              <div class="gallery-thumbs">
+                ${uniqueGallery.map((src, idx) => {
+                  const isVideo = src.endsWith('.mp4');
+                  const activeClass = (src === proj.thumbnail) ? 'active' : '';
+                  return isVideo 
+                    ? `<div class="thumb video-thumb ${activeClass}" data-src="${src}" data-type="video"><span>▶</span></div>`
+                    : `<img class="thumb ${activeClass}" src="${src}" data-src="${src}" data-type="image" alt="Asset ${idx+1}" />`;
+                }).join('')}
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        }
       }
 
       // Project Brief section
