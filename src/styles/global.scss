@@ -58,7 +58,9 @@ button {
   align-items: center;
   height: var(--header-height);
   padding: 0 4.8vw;
-  background: #000000;
+  background: rgba(11, 16, 21, 0.75);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: background 220ms ease;
 }
 
@@ -116,15 +118,33 @@ body[data-page="home"] .site-header {
   letter-spacing: 1.5px;
   text-transform: uppercase;
   position: relative;
-  transition: border-color 180ms ease;
-  border-bottom: 3px solid transparent;
+  transition: color 180ms ease;
+}
+
+.site-header__link::after,
+.site-header__language::after {
+  content: '';
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #f7ee23;
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+}
+
+.site-header__link:hover::after,
+.site-header__link.is-active::after,
+.site-header__language:hover::after {
+  transform: scaleX(1);
 }
 
 .site-header__link:hover,
 .site-header__link.is-active,
 .site-header__language:hover {
-  border-bottom-color: #f7ee23;
-  color: #f7ee23;
+  color: #fff100;
 }
 
 .site-header__language {
@@ -393,13 +413,16 @@ body[data-page="home"] .site-header {
   font-size: 0.84rem;
   font-weight: 700;
   text-transform: uppercase;
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.profile-button:hover,
+.profile-button:hover {
+  border-color: var(--color-yellow);
+  color: var(--color-yellow);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(247, 238, 35, 0.15);
+}
+
 .profile-button--primary {
   border-color: var(--color-yellow);
   background: var(--color-yellow);
@@ -409,6 +432,9 @@ body[data-page="home"] .site-header {
 .profile-button--primary:hover {
   background: var(--color-white);
   border-color: var(--color-white);
+  color: var(--color-black);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
 }
 
 .profile-hero__metrics {
@@ -573,11 +599,18 @@ body[data-page="home"] .site-header {
 
 .experience-card {
   border: 1px solid rgba(255, 241, 0, 0.18);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1.7rem;
   background:
-    linear-gradient(135deg, rgba(255, 241, 0, 0.08), transparent 34%),
-    rgba(7, 12, 14, 0.9);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
+    rgba(7, 12, 14, 0.8);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(247, 238, 35, 0.5);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
 .experience-card__meta {
@@ -652,9 +685,16 @@ body[data-page="home"] .site-header {
 .capability-card {
   min-height: 224px;
   border: 1px solid rgba(255, 241, 0, 0.16);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 1.35rem;
-  background: rgba(5, 8, 9, 0.92);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), rgba(5, 8, 9, 0.8);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.capability-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(247, 238, 35, 0.5);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
 .capability-card h3 {
@@ -1714,4 +1754,18 @@ body[data-page="home"] .site-header {
     padding-right: 0.9rem;
     padding-left: 0.9rem;
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-black);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-yellow);
 }

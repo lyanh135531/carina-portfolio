@@ -38,6 +38,20 @@ revealItems.forEach((element) => {
   );
 });
 
+const scrollProgress = document.querySelector<HTMLElement>("[data-scroll-progress]");
+if (scrollProgress) {
+  gsap.to(scrollProgress, {
+    width: "100%",
+    ease: "none",
+    scrollTrigger: {
+      trigger: document.body,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.1
+    }
+  });
+}
+
 const heroImage = document.querySelector<HTMLElement>("[data-hero-image]");
 
 if (heroImage) {

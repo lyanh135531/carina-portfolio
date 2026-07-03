@@ -74,11 +74,7 @@ export const navigationItems: readonly NavItem[] = [
     label: { vi: "Portfolio", en: "Portfolio" },
     path: "/services",
   },
-  {
-    pageId: "about",
-    label: { vi: "Freelancer", en: "Freelancer" },
-    path: "/about",
-  },
+
 ];
 
 export const routeByPageId: Readonly<Record<PageId, string>> = {

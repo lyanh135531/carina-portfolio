@@ -86,6 +86,7 @@ const footerContent = footerContentByLocale[locale];
     />
   </head>
   <body data-page={pageId}>
+    <div class="scroll-progress" data-scroll-progress style="position: fixed; top: 0; left: 0; height: 3px; background: #f7ee23; z-index: 1000; width: 0%; transform-origin: 0 50%;"></div>
     <Header locale={locale} pageId={pageId} alternatePath={alternatePath} />
     <main>
       <slot />
