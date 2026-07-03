@@ -34,17 +34,18 @@ const categoriesJson = JSON.stringify(portfolioCategories);
     {portfolioProjects.map(p => (
       <article class="card" data-category={p.category} data-id={p.id}>
         <div class={`media media--${p.category}`}>
+          <div class="skeleton-loader"></div>
           {p.thumbnail && p.thumbnail.endsWith('.mp4') ? (
-            <video src={p.thumbnail} muted playsinline preload="metadata" loop class="card-video" />
+            <video data-src={p.thumbnail} muted playsinline preload="none" loop class="card-video loading-media" onloadeddata="this.parentElement.classList.add('is-loaded')" />
           ) : p.thumbnail && !p.thumbnail.endsWith('.txt') ? (
-            <img src={p.thumbnail} alt={p.title[locale]} loading="lazy" />
+            <img src={p.thumbnail} alt={p.title[locale]} loading="lazy" class="card-img loading-media" onload="this.parentElement.classList.add('is-loaded')" />
           ) : p.category === 'social' ? (
-            <div class="social-media-preview">
+            <div class="social-media-preview loading-media" style="opacity: 1;">
               <span class="social-icon">📸</span>
               <span class="social-handle">@chinsu_usa</span>
             </div>
           ) : (
-            <div class="media-placeholder">No preview</div>
+            <div class="media-placeholder loading-media" style="opacity: 1;">No preview</div>
           )}
           <div class="badge">{portfolioCategories.find(c => c.id === p.category)?.label[locale]}</div>
           {p.video && <div class="play-badge">▶ VIDEO</div>}
@@ -153,16 +154,42 @@ const categoriesJson = JSON.stringify(portfolioCategories);
 
     if (searchInput) searchInput.addEventListener('input', applyFilters);
 
-    // Hover Video Playback Behavior
+    // Intersection Observer for Lazy Loading Videos with Skeleton
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const video = card.querySelector('.card-video');
+          if (video && !video.src) {
+            // Assign src to start loading metadata/first frame for the skeleton to finish
+            video.src = video.dataset.src;
+            video.load(); // Kích hoạt tải
+          }
+          // Ngừng theo dõi sau khi đã load src để tiết kiệm tài nguyên
+          obs.unobserve(card);
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    // Hover Video Playback Behavior & Observe
     document.querySelectorAll('.card').forEach(card => {
+      observer.observe(card); // Theo dõi card để lazy load
+      
       const video = card.querySelector('.card-video');
       if (video) {
         card.addEventListener('mouseenter', () => {
-          video.play().catch(e => {});
+          // Fallback in case hover happens before IntersectionObserver triggers
+          if (!video.src || video.getAttribute('src') === '') {
+            video.src = video.dataset.src;
+          }
+          video.play().catch(e => {
+            console.warn("Auto-play prevented or loading", e);
+          });
         });
         card.addEventListener('mouseleave', () => {
           video.pause();
-          video.currentTime = 0;
+          // Do not reset currentTime here so it resumes nicely, or reset if desired.
+          // Mute and pause is enough to save CPU.
         });
       }
 
@@ -388,7 +415,11 @@ const categoriesJson = JSON.stringify(portfolioCategories);
       drawer.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       const activeVideo = drawerContent.querySelector('video');
-      if (activeVideo) activeVideo.pause();
+      if (activeVideo) {
+        activeVideo.pause();
+        activeVideo.removeAttribute('src'); // Giải phóng hoàn toàn RAM của video
+        activeVideo.load();
+      }
     }));
 
     document.addEventListener('keydown', e => {
@@ -396,7 +427,11 @@ const categoriesJson = JSON.stringify(portfolioCategories);
         drawer.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         const activeVideo = drawerContent.querySelector('video');
-        if (activeVideo) activeVideo.pause();
+        if (activeVideo) {
+          activeVideo.pause();
+          activeVideo.removeAttribute('src');
+          activeVideo.load();
+        }
       }
     });
   }
@@ -567,10 +602,40 @@ const categoriesJson = JSON.stringify(portfolioCategories);
     position: relative;
     width: 100%;
     overflow: hidden;
-    background: #000;
+    background: var(--color-panel);
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  /* Skeleton Loader Styles */
+  .skeleton-loader {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+    z-index: 2;
+    transition: opacity 0.5s ease;
+  }
+
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .media.is-loaded .skeleton-loader {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loading-media {
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .media.is-loaded .loading-media {
+    opacity: 1;
   }
 
   /* Responsive Aspect Ratios depending on Content Category to create Masonry effect */
