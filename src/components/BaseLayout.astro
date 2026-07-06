@@ -1,5 +1,6 @@
 ---
 import Header from "@/components/Header.astro";
+import { ClientRouter } from "astro:transitions";
 import "@/styles/global.scss";
 import type { Locale, PageId } from "@/data/site";
 import { pageMeta } from "@/data/site";
@@ -84,6 +85,7 @@ const footerContent = footerContentByLocale[locale];
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Varela+Round&display=swap"
       rel="stylesheet"
     />
+    <ClientRouter />
   </head>
   <body data-page={pageId}>
     <div class="scroll-progress" data-scroll-progress style="position: fixed; top: 0; left: 0; height: 3px; background: #f7ee23; z-index: 1000; width: 0%; transform-origin: 0 50%;"></div>
