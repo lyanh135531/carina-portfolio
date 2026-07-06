@@ -125,16 +125,18 @@ const { locale } = Astro.props;
     <p>{profileSectionLabels.clientsEyebrow[locale]}</p>
     <h2>{profileSectionLabels.clientsTitle[locale]}</h2>
   </div>
-  <div class="client-logo-grid reveal">
-    {
-      profileClientLogos.map((client) => (
-        <article class="client-logo-card">
-          <div class="client-logo-card__mark">
-            <img src={client.image.src} alt={client.image.alt[locale]} loading="lazy" />
-          </div>
-          <span>{client.name}</span>
-        </article>
-      ))
-    }
+  <div class="marquee-container reveal">
+    <div class="client-logo-marquee">
+      {
+        [...profileClientLogos, ...profileClientLogos].map((client) => (
+          <article class="client-logo-card marquee-item">
+            <div class="client-logo-card__mark">
+              <img src={client.image.src} alt={client.image.alt[locale]} loading="lazy" />
+            </div>
+            <span>{client.name}</span>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>

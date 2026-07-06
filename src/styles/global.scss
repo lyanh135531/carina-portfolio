@@ -720,6 +720,36 @@ body[data-page="home"] .site-header {
   gap: 1rem;
 }
 
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 0.5rem)); }
+}
+
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.client-logo-marquee {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  animation: scrollMarquee 25s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+.marquee-item {
+  flex: 0 0 260px;
+}
+
 .client-logo-card {
   display: grid;
   min-height: 208px;
