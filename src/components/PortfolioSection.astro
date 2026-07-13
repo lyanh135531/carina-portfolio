@@ -31,6 +31,11 @@ const categoriesJson = JSON.stringify(portfolioCategories);
   </div>
 
   <div class="grid" data-grid>
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <div class="empty-icon">📂</div>
+      <h3>{locale === 'vi' ? 'Không tìm thấy dự án' : 'No projects found'}</h3>
+      <p>{locale === 'vi' ? 'Thử điều chỉnh từ khóa hoặc bộ lọc của bạn.' : 'Try adjusting your search or filters.'}</p>
+    </div>
     {portfolioProjects.map(p => (
       <article class="card" data-category={p.category} data-id={p.id}>
         <div class={`media media--${p.category}`}>
@@ -144,6 +149,11 @@ const categoriesJson = JSON.stringify(portfolioCategories);
         }
       });
       updateCount(activeProjects.length);
+
+      const emptyState = document.getElementById('empty-state');
+      if (emptyState) {
+        emptyState.style.display = activeProjects.length === 0 ? 'flex' : 'none';
+      }
     }
 
     filters.forEach(f => f.addEventListener('click', () => {
@@ -152,31 +162,47 @@ const categoriesJson = JSON.stringify(portfolioCategories);
       applyFilters();
     }));
 
-    if (searchInput) searchInput.addEventListener('input', applyFilters);
+    let debounceTimer;
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          applyFilters();
+        }, 300);
+      });
+    }
 
-    // Intersection Observer for Lazy Loading Videos with Skeleton
+    // Intersection Observer for Lazy Loading Videos with Skeleton & Mobile Autoplay
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
+        const card = entry.target;
+        const video = card.querySelector('.card-video');
+        if (!video) return;
+
         if (entry.isIntersecting) {
-          const card = entry.target;
-          const video = card.querySelector('.card-video');
-          if (video && !video.src) {
+          if (!video.src) {
             // Assign src to start loading metadata/first frame for the skeleton to finish
             video.src = video.dataset.src;
             video.load(); // Kích hoạt tải
           }
-          // Ngừng theo dõi sau khi đã load src để tiết kiệm tài nguyên
-          obs.unobserve(card);
+          // On mobile, auto-play when in viewport
+          if (isTouchDevice) {
+            video.play().catch(e => console.warn("Auto-play prevented", e));
+          }
+        } else {
+          // Pause when out of viewport to save CPU
+          video.pause();
         }
       });
-    }, { rootMargin: '200px' });
+    }, { rootMargin: '50px' });
 
     // Hover Video Playback Behavior & Observe
     document.querySelectorAll('.card').forEach(card => {
-      observer.observe(card); // Theo dõi card để lazy load
+      observer.observe(card); // Theo dõi card để lazy load và quản lý playback
       
       const video = card.querySelector('.card-video');
-      if (video) {
+      if (video && !isTouchDevice) {
         card.addEventListener('mouseenter', () => {
           // Fallback in case hover happens before IntersectionObserver triggers
           if (!video.src || video.getAttribute('src') === '') {
@@ -188,8 +214,6 @@ const categoriesJson = JSON.stringify(portfolioCategories);
         });
         card.addEventListener('mouseleave', () => {
           video.pause();
-          // Do not reset currentTime here so it resumes nicely, or reset if desired.
-          // Mute and pause is enough to save CPU.
         });
       }
 
@@ -574,6 +598,39 @@ const categoriesJson = JSON.stringify(portfolioCategories);
     column-count: 3;
     column-gap: 30px;
     width: 100%;
+  }
+
+  .empty-state {
+    column-span: all;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .empty-state h3 {
+    font-size: 20px;
+    color: var(--color-white);
+    margin: 0 0 8px;
+  }
+
+  .empty-state p {
+    color: var(--color-muted);
+    font-size: 14px;
+    margin: 0;
   }
 
   .card {
