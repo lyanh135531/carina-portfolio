@@ -37,7 +37,7 @@ const categoriesJson = JSON.stringify(portfolioCategories);
       <p>{locale === 'vi' ? 'Thử điều chỉnh từ khóa hoặc bộ lọc của bạn.' : 'Try adjusting your search or filters.'}</p>
     </div>
     {portfolioProjects.map(p => (
-      <article class="card" data-category={p.category} data-id={p.id}>
+      <article class="card" data-category={p.category} data-id={p.id} tabindex="0" role="button" aria-label={locale === 'vi' ? `Xem chi tiết dự án ${p.title[locale]}` : `View details for project ${p.title[locale]}`}>
         <div class={`media media--${p.category}`}>
           <div class="skeleton-loader"></div>
           {p.thumbnail && p.thumbnail.endsWith('.mp4') ? (
@@ -99,6 +99,11 @@ const categoriesJson = JSON.stringify(portfolioCategories);
   window.__PORTFOLIO__ = projects;
 
   function initPortfolio() {
+    // Clean up any global listeners from previous route renders to prevent leaks
+    if (window.__PORTFOLIO_CLEANUP__) {
+      window.__PORTFOLIO_CLEANUP__();
+    }
+
     const grid = document.querySelector('[data-grid]');
     const filters = document.querySelectorAll('.filter');
     const searchInput = document.getElementById('portfolio-search');
@@ -114,11 +119,14 @@ const categoriesJson = JSON.stringify(portfolioCategories);
 
     let activeProjects = [...projects];
     let currentProjectIndex = -1;
+    let lastClickedCard = null;
 
     // Update Project Count
     function updateCount(visible) {
       const total = projects.length;
-      countEl.textContent = visible === total ? `${total} projects` : `${visible} / ${total} projects`;
+      if (countEl) {
+        countEl.textContent = visible === total ? `${total} projects` : `${visible} / ${total} projects`;
+      }
     }
     updateCount(projects.length);
 
@@ -222,10 +230,41 @@ const categoriesJson = JSON.stringify(portfolioCategories);
         const id = card.dataset.id;
         currentProjectIndex = activeProjects.findIndex(p => p.id === id);
         if (currentProjectIndex !== -1) {
+          lastClickedCard = card;
           openDrawer(activeProjects[currentProjectIndex]);
+          
+          // Focus the close button in the drawer when opened
+          setTimeout(() => {
+            const closeBtn = drawer.querySelector('.drawer-close');
+            closeBtn?.focus();
+          }, 100);
+        }
+      });
+
+      // Keyboard navigation logic for triggering cards with Enter/Space keys
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
         }
       });
     });
+
+    // Close Drawer Helper function
+    function closeDrawer() {
+      if (!drawer) return;
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      const activeVideo = drawerContent.querySelector('video');
+      if (activeVideo) {
+        activeVideo.pause();
+        activeVideo.removeAttribute('src'); // Giải phóng hoàn toàn RAM của video
+        activeVideo.load();
+      }
+      if (lastClickedCard) {
+        lastClickedCard.focus();
+      }
+    }
 
     // Drawer Open and Render Logic
     function openDrawer(proj) {
@@ -383,6 +422,7 @@ const categoriesJson = JSON.stringify(portfolioCategories);
 
     // Update Next/Prev Project Navigation in Drawer
     function updateDrawerNavigation() {
+      if (!prevBtn || !nextBtn || !prevTitle || !nextTitle) return;
       // Prev Button
       if (currentProjectIndex > 0) {
         prevBtn.removeAttribute('disabled');
@@ -405,7 +445,7 @@ const categoriesJson = JSON.stringify(portfolioCategories);
     }
 
     // Nav Click Handlers
-    prevBtn.addEventListener('click', () => {
+    prevBtn?.addEventListener('click', () => {
       if (currentProjectIndex > 0) {
         currentProjectIndex--;
         // Fade effect transitions inside drawer panel
@@ -420,7 +460,7 @@ const categoriesJson = JSON.stringify(portfolioCategories);
       }
     });
 
-    nextBtn.addEventListener('click', () => {
+    nextBtn?.addEventListener('click', () => {
       if (currentProjectIndex < activeProjects.length - 1) {
         currentProjectIndex++;
         drawerContent.style.opacity = '0';
@@ -435,34 +475,71 @@ const categoriesJson = JSON.stringify(portfolioCategories);
     });
 
     // Close Actions
-    document.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => {
-      drawer.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      const activeVideo = drawerContent.querySelector('video');
-      if (activeVideo) {
-        activeVideo.pause();
-        activeVideo.removeAttribute('src'); // Giải phóng hoàn toàn RAM của video
-        activeVideo.load();
-      }
-    }));
+    document.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeDrawer));
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
-        drawer.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        const activeVideo = drawerContent.querySelector('video');
-        if (activeVideo) {
-          activeVideo.pause();
-          activeVideo.removeAttribute('src');
-          activeVideo.load();
+    // Keyboard handlers (Esc, ArrowLeft, ArrowRight, and Focus Trapping tab key)
+    function handleKeyDown(e) {
+      if (drawer.getAttribute('aria-hidden') === 'true') return;
+
+      if (e.key === 'Escape') {
+        closeDrawer();
+        return;
+      }
+
+      if (e.key === 'ArrowLeft') {
+        if (currentProjectIndex > 0 && prevBtn) {
+          prevBtn.click();
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowRight') {
+        if (currentProjectIndex < activeProjects.length - 1 && nextBtn) {
+          nextBtn.click();
+        }
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const focusableElements = Array.from(
+          drawer.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, video[controls], [tabindex="0"]')
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) { // Shift + Tab
+          if (document.activeElement === firstElement) {
+            lastElement.focus();
+            e.preventDefault();
+          }
+        } else { // Tab
+          if (document.activeElement === lastElement) {
+            firstElement.focus();
+            e.preventDefault();
+          }
         }
       }
-    });
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Save cleanup to window to destroy event listeners before re-initializing or on route transition
+    window.__PORTFOLIO_CLEANUP__ = () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+      observer.disconnect();
+    };
   }
 
-  document.readyState === 'loading' 
-    ? document.addEventListener('DOMContentLoaded', initPortfolio) 
-    : initPortfolio();
+  // Astro page-load and cleanup support
+  document.addEventListener('astro:page-load', initPortfolio);
+  document.addEventListener('astro:before-preparation', () => {
+    if (window.__PORTFOLIO_CLEANUP__) {
+      window.__PORTFOLIO_CLEANUP__();
+    }
+  });
 </script>
 
 <style>

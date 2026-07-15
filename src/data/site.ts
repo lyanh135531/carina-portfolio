@@ -124,8 +124,8 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
     kicker: { vi: "Dare To Breakthrough", en: "Dare To Breakthrough" },
   },
   credential: {
-    title: { vi: "Our Projects", en: "Our Projects" },
-    mobileTitle: { vi: "Our Projects", en: "Our Projects" },
+    title: { vi: "Dự án nổi bật", en: "Selected Projects" },
+    mobileTitle: { vi: "Dự án nổi bật", en: "Selected Projects" },
     kicker: { vi: "Selected Credentials", en: "Selected Credentials" },
   },
   blog: {
@@ -399,32 +399,32 @@ export const credentials: readonly CredentialItem[] = [
 export const aboutBlocks: readonly AboutBlock[] = [
   {
     eyebrow: {
-      vi: "Dare To Break Patterns - To Unlearn, To Feel, To Begin Again",
+      vi: "Dám phá vỡ khuôn mẫu - Học hỏi, Cảm nhận và Bắt đầu lại",
       en: "Dare To Break Patterns - To Unlearn, To Feel, To Begin Again",
     },
     vi: [
       "Mình tin rằng một dự án thành công không chỉ bắt đầu từ ý tưởng tốt, mà từ việc mọi người cùng hiểu đúng mục tiêu, phối hợp đúng nhịp.",
-      "Chúng tôi không chỉ tạo chiến dịch, mà tìm kiếm những đột phá thực sự trong từng chiến dịch. Với mình, điều phối công việc là tạo ra sự kết nối đủ rõ ràng để mọi ý tưởng có thể được triển khai hiệu quả nhất.",
+      "Mình không chỉ tạo chiến dịch, mà tìm kiếm những đột phá thực sự trong từng chiến dịch. Với mình, điều phối công việc là tạo ra sự kết nối đủ rõ ràng để mọi ý tưởng có thể được triển khai hiệu quả nhất.",
       "Mình ứng dụng công nghệ và AI không để thay thế, mà để khuếch đại sáng tạo. Để những ý tưởng đi sâu hơn, chạm đến cảm xúc nhiều hơn và tạo ra tác động có chủ đích.",
     ],
     en: [
       "I believe a successful project begins with people understanding the same goal, moving in the same rhythm and working toward one shared outcome.",
-      "We are not just creating campaigns, we create breakthroughs. More than coordinating tasks, I create the clarity that helps ideas move into execution effectively.",
-      "We use technology and AI not to replace creativity, but to amplify it, go deeper, feel more and create with intention.",
+      "I am not just creating campaigns, I create breakthroughs. More than coordinating tasks, I create the clarity that helps ideas move into execution effectively.",
+      "I use technology and AI not to replace creativity, but to amplify it, go deeper, feel more and create with intention.",
     ],
   },
   {
     eyebrow: {
-      vi: "Dare To Break Boundaries - We Encourage Self-Creative Development",
-      en: "Dare To Break Boundaries - We Encourage Self-Creative Development",
+      vi: "Dám vượt qua giới hạn - Khuyến khích phát triển khả năng sáng tạo",
+      en: "Dare To Break Boundaries - Encouraging Creative Development",
     },
     vi: [
-      "Chúng tôi không chỉ theo đuổi sự tăng trưởng, mà tìm kiếm sự phát triển trọn vẹn cho thương hiệu và cho cả những người ở phía sau thương hiệu.",
+      "Mình không chỉ theo đuổi sự tăng trưởng, mà tìm kiếm sự phát triển trọn vẹn cho thương hiệu và cho cả những người ở phía sau thương hiệu.",
       "Trong công việc, mình không chỉ triển khai dự án, mà kiến tạo một văn hóa nơi sự sáng tạo được nuôi dưỡng, con người được phát triển và những chuẩn mực mới được định hình.",
-      "Với đội ngũ kinh nghiệm từng hợp tác cùng nhiều thương hiệu lớn tại Việt Nam lẫn quốc tế, mình tự tin cùng bạn đưa ra các phương án tối ưu nhất.",
+      "Với kinh nghiệm từng hợp tác cùng nhiều thương hiệu lớn tại Việt Nam lẫn quốc tế, mình tự tin cùng bạn đưa ra các phương án tối ưu nhất.",
     ],
     en: [
-      "We do not just pursue growth. We pursue the fullest expression of growth for brands and for the people behind them.",
+      "I do not just pursue growth. I pursue the fullest expression of growth for brands and for the people behind them.",
       "I aim to build an environment where creativity flourishes, individuals thrive and new standards for the creative industry are shaped.",
       "With experience collaborating with major brands in Vietnam and internationally, I am ready to craft practical, measurable creative solutions.",
     ],

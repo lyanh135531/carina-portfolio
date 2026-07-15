@@ -176,8 +176,8 @@ export const portfolioProjects: readonly PortfolioProject[] = [
       en: "Comprehensive packaging system across roll, box, slice formats (19+ variants)."
     },
     brief: {
-      vi: "Không có file Info.txt. Đây là hệ thống thiết kế nhất quán cho nhiều format đóng gói Gumi.",
-      en: "No Info.txt. Consistent design system across multiple Gumi packaging formats."
+      vi: "Thiết kế hệ thống bao bì nhất quán, hiện đại cho nhiều quy cách đóng gói sản phẩm Gumi (cuộn, gói, hộp, lát), đảm bảo tính nhận diện đồng bộ trên kệ hàng.",
+      en: "Design a consistent and modern packaging system across multiple formats for Gumi (rolls, boxes, bags, slices), ensuring strong shelf recognition."
     },
     thumbnail: "/data/bao_bi/gumi/cuộn/gói/F1.png",
     gallery: [
@@ -313,7 +313,10 @@ export const portfolioProjects: readonly PortfolioProject[] = [
     client: "Changshin",
     year: "2025",
     description: { vi: "Bộ ảnh sự kiện Changshin – đối tác gia công Nike.", en: "Event photography for Changshin (Nike partner)." },
-    brief: { vi: "Không có file Info.txt. Đây là bộ ảnh ghi lại không khí sự kiện chuyên nghiệp.", en: "No Info.txt. Professional event photography collection." },
+    brief: {
+      vi: "Bộ ảnh ghi lại toàn bộ hoạt động, không khí sôi nổi và các khoảnh khắc đáng nhớ của sự kiện kỷ niệm Changshin.",
+      en: "Photography collection capturing all key activities, vibrant atmosphere and memorable moments of the Changshin event."
+    },
     thumbnail: "/data/event/changshin/z7963746452497_e41813fd7b19bd21adf8895af7f6043f.jpg",
     gallery: [
       "/data/event/changshin/z7963746452497_e41813fd7b19bd21adf8895af7f6043f.jpg",
@@ -338,7 +341,10 @@ export const portfolioProjects: readonly PortfolioProject[] = [
     client: "LocknLock",
     year: "2025",
     description: { vi: "Bộ ảnh sự kiện LocknLock.", en: "LocknLock event photography." },
-    brief: { vi: "Không có file Info.txt.", en: "No Info.txt." },
+    brief: {
+      vi: "Bộ ảnh sự kiện ghi lại không khí, cách bài trí không gian và các hoạt động kết nối của thương hiệu LocknLock.",
+      en: "Event photography capturing the brand atmosphere, space layout and engaging activities for LocknLock."
+    },
     thumbnail: "/data/event/LocknLock/z7963710188558_3a66def7902a2e566e1238102159c980.jpg",
     gallery: [
       "/data/event/LocknLock/z7963710188558_3a66def7902a2e566e1238102159c980.jpg",
@@ -358,7 +364,10 @@ export const portfolioProjects: readonly PortfolioProject[] = [
     client: "Mekong",
     year: "2025",
     description: { vi: "Hình ảnh sự kiện Mekong.", en: "Mekong event photography." },
-    brief: { vi: "Không có file Info.txt.", en: "No Info.txt." },
+    brief: {
+      vi: "Hình ảnh tư liệu chất lượng cao ghi lại các khoảnh khắc, không khí tổ chức và đại biểu tham dự sự kiện Mekong.",
+      en: "High-quality event photography capturing key moments, organizational atmosphere and delegates at the Mekong event."
+    },
     thumbnail: "/data/event/mekong/z7963730182446_f9bbe0dfa2c593459865607da3f6ebe1.jpg",
     gallery: [
       "/data/event/mekong/z7963730182446_f9bbe0dfa2c593459865607da3f6ebe1.jpg",
@@ -378,7 +387,10 @@ export const portfolioProjects: readonly PortfolioProject[] = [
     client: "Shinhan",
     year: "2025",
     description: { vi: "Bộ ảnh sự kiện Shinhan.", en: "Shinhan event photography." },
-    brief: { vi: "Không có file Info.txt.", en: "No Info.txt." },
+    brief: {
+      vi: "Hình ảnh ghi nhận không khí tổ chức sự kiện chuyên nghiệp và các hoạt động tương tác khách hàng của Shinhan.",
+      en: "Event photography documenting the professional organizational atmosphere and client interactions for Shinhan."
+    },
     thumbnail: "/data/event/shinhan/z7963748135982_8b26de58a635c64aa99f41d7bcb23328.jpg",
     gallery: [
       "/data/event/shinhan/z7963748135982_8b26de58a635c64aa99f41d7bcb23328.jpg",
@@ -399,7 +411,10 @@ export const portfolioProjects: readonly PortfolioProject[] = [
     client: "Chinsu",
     year: "2025",
     description: { vi: "Nội dung social cho Chinsu USA – Instagram @chinsu_usa.", en: "Social content for Chinsu USA Instagram." },
-    brief: { vi: "https://www.instagram.com/chinsu_usa/", en: "https://www.instagram.com/chinsu_usa/" },
+    brief: {
+      vi: "Xây dựng định hướng nội dung và hình ảnh cho kênh Instagram chính thức của Chinsu tại thị trường Mỹ, tập trung vào phong cách hiện đại và tiếp cận khách hàng quốc tế.",
+      en: "Establish content and visual direction for Chinsu USA official Instagram channel, focusing on modern aesthetics and international appeal."
+    },
     thumbnail: "/data/social/Chinsu/Info.txt",
     gallery: [],
     tags: ["Social", "Instagram"]
