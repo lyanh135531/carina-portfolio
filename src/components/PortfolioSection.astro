@@ -323,7 +323,7 @@ const categoriesJson = JSON.stringify(portfolioCategories);
       // Gallery strip block (only show if there's more than 1 asset to avoid duplicates)
       let galleryHTML = '';
       if (proj.gallery && proj.gallery.length > 0) {
-        const uniqueGallery = [...new Set(proj.gallery)];
+        const uniqueGallery = [...new Set(proj.gallery)].filter((src) => src !== proj.thumbnail);
         if (uniqueGallery.length > 1) {
           galleryHTML = `
             <div class="gallery-strip">
