@@ -1,37 +1,39 @@
 ---
-import type { Locale, PageId } from "@/data/site";
-import { defaultLocale, getLocalizedPath, navigationItems, routeByPageId } from "@/data/site";
+import type { PageId } from "@/data/site";
+import { navigationItems } from "@/data/site";
 
 type Props = Readonly<{
-  locale: Locale;
   pageId: PageId;
-  alternatePath?: string;
 }>;
 
-const { locale, pageId, alternatePath } = Astro.props;
-const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
-const resolvedAlternatePath = alternatePath ?? getLocalizedPath(alternateLocale, routeByPageId[pageId]);
+const { pageId } = Astro.props;
 ---
 
 <header class="site-header" data-header>
-  <a class="site-header__logo" href={getLocalizedPath(defaultLocale, "/")} aria-label="Carina portfolio homepage">
+  <a class="site-header__logo" href="/" aria-label="Trang chủ portfolio Carina">
     <span>Carina</span>
   </a>
-  <button class="site-header__toggle" type="button" aria-label="Open menu" data-menu-toggle>
+  <button
+    class="site-header__toggle"
+    type="button"
+    aria-label="Mở menu"
+    aria-expanded="false"
+    aria-controls="primary-navigation"
+    data-menu-toggle
+  >
     <span></span>
     <span></span>
   </button>
-  <nav class="site-header__nav" data-nav>
+  <nav id="primary-navigation" class="site-header__nav" data-nav aria-label="Điều hướng chính">
     {
       navigationItems.map((item) => (
         <a
           class:list={["site-header__link", item.pageId === pageId && "is-active"]}
-          href={getLocalizedPath(locale, item.path)}
+          href={item.path}
         >
-          {item.label[locale]}
+          {item.label.vi}
         </a>
       ))
     }
-    <a class="site-header__language" href={resolvedAlternatePath}>{alternateLocale.toUpperCase()}</a>
   </nav>
 </header>

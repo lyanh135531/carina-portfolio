@@ -6,15 +6,13 @@ type CardItem = Readonly<{
   title: LocalizedText;
   image: ImageAsset;
   href?: string;
-  date?: string;
-  excerpt?: LocalizedText;
   disabled?: true;
 }>;
 
 type Props = Readonly<{
   items: readonly CardItem[];
   locale: Locale;
-  variant: "service" | "blog" | "credential";
+  variant: "service" | "credential";
 }>;
 
 const { items, locale, variant } = Astro.props;
@@ -28,27 +26,21 @@ const { items, locale, variant } = Astro.props;
       return itemHref ? (
         <a class:list={["media-card", `media-card--${variant}`, "is-linked"]} href={itemHref}>
           <div class="media-card__image">
-            <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" />
+            <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" onerror="this.hidden=true; this.parentElement.classList.add('is-fallback')" />
             <span class="media-card__shine"></span>
           </div>
           <div class="media-card__body">
-            {item.date && <time>{item.date}</time>}
             <h3>{item.title[locale]}</h3>
-            {item.excerpt && <p>{item.excerpt[locale]}</p>}
-            {variant === "blog" && <span class="media-card__arrow" aria-hidden="true">→</span>}
           </div>
         </a>
       ) : (
-        <article class:list={["media-card", `media-card--${variant}`, item.disabled && "is-disabled"]} aria-disabled="true">
+        <article class:list={["media-card", `media-card--${variant}`, item.disabled && "is-disabled"]} aria-disabled={item.disabled ? "true" : undefined}>
           <div class="media-card__image">
-            <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" />
+            <img src={item.image.src} alt={item.image.alt[locale]} loading="lazy" onerror="this.hidden=true; this.parentElement.classList.add('is-fallback')" />
             <span class="media-card__shine"></span>
           </div>
           <div class="media-card__body">
-            {item.date && <time>{item.date}</time>}
             <h3>{item.title[locale]}</h3>
-            {item.excerpt && <p>{item.excerpt[locale]}</p>}
-            {variant === "blog" && <span class="media-card__arrow" aria-hidden="true">→</span>}
           </div>
         </article>
       );

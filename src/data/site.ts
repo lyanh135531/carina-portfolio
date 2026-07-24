@@ -1,6 +1,6 @@
 export type Locale = "vi" | "en";
 
-export type PageId = "home" | "services" | "about" | "credential" | "blog" | "contact";
+export type PageId = "home" | "services" | "about" | "credential" | "contact";
 
 export type LocalizedText = Readonly<Record<Locale, string>>;
 
@@ -25,22 +25,6 @@ export type ImageAsset = Readonly<{
   alt: LocalizedText;
 }>;
 
-export type ServiceItem = Readonly<{
-  id: ServiceId;
-  title: LocalizedText;
-  image: ImageAsset;
-  href: string;
-  disabled?: true;
-}>;
-
-export type BlogPost = Readonly<{
-  date: string;
-  title: LocalizedText;
-  excerpt: LocalizedText;
-  image: ImageAsset;
-  disabled?: true;
-}>;
-
 export type CredentialItem = Readonly<{
   title: LocalizedText;
   image: ImageAsset;
@@ -59,10 +43,6 @@ export type PageMeta = Readonly<{
   kicker: LocalizedText;
 }>;
 
-export const defaultLocale: Locale = "vi";
-
-const locales: readonly Locale[] = ["vi", "en"];
-
 export const navigationItems: readonly NavItem[] = [
   {
     pageId: "home",
@@ -74,28 +54,20 @@ export const navigationItems: readonly NavItem[] = [
     label: { vi: "Portfolio", en: "Portfolio" },
     path: "/services/",
   },
-
+  {
+    pageId: "about",
+    label: { vi: "Về tôi", en: "About" },
+    path: "/about/",
+  },
+  {
+    pageId: "contact",
+    label: { vi: "Liên hệ", en: "Contact" },
+    path: "/contact/",
+  },
 ];
 
-export const routeByPageId: Readonly<Record<PageId, string>> = {
-  home: "/",
-  services: "/services/",
-  about: "/about/",
-  credential: "/credential/",
-  blog: "/blog/",
-  contact: "/contact/",
-};
-
 export const getLocalizedPath = (locale: Locale, path: string): string => {
-  if (locale === defaultLocale) {
-    return path;
-  }
-
-  if (path === "/") {
-    return `/${locale}`;
-  }
-
-  return `/${locale}${path}`;
+  return path;
 };
 
 export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
@@ -114,7 +86,7 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
     },
   },
   services: {
-    title: { vi: "Services", en: "Services" },
+    title: { vi: "Portfolio", en: "Portfolio" },
     mobileTitle: { vi: "Dịch Vụ", en: "Services" },
     kicker: { vi: "Dịch vụ sáng tạo", en: "Creative Services" },
   },
@@ -128,200 +100,12 @@ export const pageMeta: Readonly<Record<PageId, PageMeta>> = {
     mobileTitle: { vi: "Dự án nổi bật", en: "Selected Projects" },
     kicker: { vi: "Selected Credentials", en: "Selected Credentials" },
   },
-  blog: {
-    title: { vi: "Blog", en: "Blog" },
-    mobileTitle: { vi: "Blog", en: "Blog" },
-    kicker: { vi: "Creative In You", en: "Creative In You" },
-  },
   contact: {
     title: { vi: "Contact", en: "Contact" },
     mobileTitle: { vi: "Contact", en: "Contact" },
     kicker: { vi: "Contact", en: "Contact" },
   },
 };
-
-export const assets = {
-  logo: "/assets/portfolio/home/logo.jpg",
-  orbitLogo: "/assets/portfolio/home/render-final-yellow-square-1-1dca030dd7.gif",
-  cosmicHero: "/assets/portfolio/home/anh-nen-cover-b32bbfbf9e.jpg",
-  serviceHero: "/assets/portfolio/services/cover-fb-0310-dfc90a463b.jpg",
-  homeCampaignA: "/assets/portfolio/home/1759489307168-5aba5c97eb.png",
-  homeCampaignB: "/assets/portfolio/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
-} as const;
-
-export const services: readonly ServiceItem[] = [
-  {
-    id: "commercial",
-    title: { vi: "Commercial", en: "Commercial" },
-    href: "/commercial-campaign/",
-    image: {
-      src: "/assets/portfolio/home/dich-vu-commercial-800-1068-px-1-4a802baadb.gif",
-      alt: { vi: "Commercial campaign", en: "Commercial campaign" },
-    },
-  },
-  {
-    id: "fashion",
-    title: { vi: "Fashion", en: "Fashion" },
-    href: "/fashion-campaign/",
-    image: {
-      src: "/assets/portfolio/home/dv-fashion-b8310eec39.gif",
-      alt: { vi: "Fashion campaign", en: "Fashion campaign" },
-    },
-  },
-  {
-    id: "creative-design",
-    title: { vi: "Creative Design", en: "Creative Design" },
-    href: "/creative-concept/",
-    image: {
-      src: "/assets/portfolio/home/dich-vu-creative-800-1068-px-c2c63ea8e1.gif",
-      alt: { vi: "Creative design", en: "Creative design" },
-    },
-  },
-  {
-    id: "commercial-videography",
-    title: { vi: "Commercial Videography", en: "Commercial Videography" },
-    href: "/tvc-videography-film/",
-    image: {
-      src: "/assets/portfolio/home/dv-video-final-4e151314e6.gif",
-      alt: { vi: "Commercial videography", en: "Commercial videography" },
-    },
-  },
-  {
-    id: "catalogue-ecommerce",
-    title: { vi: "Catalogue Ecommerce", en: "Catalogue Ecommerce" },
-    href: "/catalogue-ecommerce/",
-    image: {
-      src: "/assets/portfolio/home/dich-vu-cata-800-1068-px-06bf8e6505.gif",
-      alt: { vi: "Catalogue ecommerce", en: "Catalogue ecommerce" },
-    },
-  },
-  {
-    id: "digital-image-retouch",
-    title: { vi: "Digital Image Retouch", en: "Digital Image Retouch" },
-    href: "/digital-image-retouch/",
-    image: {
-      src: "/assets/portfolio/home/dich-vu-di-800-1068-px-1-c55ae648b0.gif",
-      alt: { vi: "Digital image retouch", en: "Digital image retouch" },
-    },
-  },
-  {
-    id: "integrated-marketing",
-    title: {
-      vi: "Integrated Marketing Communication",
-      en: "Integrated Marketing Communication",
-    },
-    href: "/IMC/",
-    image: {
-      src: "/assets/portfolio/home/brand1-c2f5e204b6.gif",
-      alt: {
-        vi: "Integrated marketing communication",
-        en: "Integrated marketing communication",
-      },
-    },
-  },
-  {
-    id: "animation",
-    title: { vi: "2D - 3D Animation Videography", en: "2D - 3D Animation Videography" },
-    href: "/2D-3D-animation-cgi/",
-    image: {
-      src: "/assets/portfolio/home/dich-vu-2d-3d-1-1c563cb859.gif",
-      alt: { vi: "2D and 3D animation", en: "2D and 3D animation" },
-    },
-  },
-];
-
-export const blogPosts: readonly BlogPost[] = [
-  {
-    date: "08-05-2026",
-    title: {
-      vi: "Các xu hướng thiết kế đáng chú ý nhất năm 2026",
-      en: "Notable Design Trends In 2026",
-    },
-    excerpt: {
-      vi: "Năm 2026 đánh dấu sự chuyển dịch rõ rệt của ngành thiết kế sau làn sóng bùng nổ AI. Người dùng tìm kiếm nhiều hơn ở cảm xúc, tính chân thật và dấu ấn con người.",
-      en: "Design in 2026 moves beyond polished visuals toward emotional, authentic and human-centered experiences after the AI boom.",
-    },
-    image: {
-      src: "/assets/portfolio/home/images-1-1-979ded4238.jpg",
-      alt: { vi: "Xu hướng thiết kế 2026", en: "Design trends 2026" },
-    },
-  },
-  {
-    date: "06-05-2026",
-    title: {
-      vi: "Designer và AI: Sự thay đổi của ngành thiết kế năm 2026",
-      en: "Designers And AI: How Design Changes In 2026",
-    },
-    excerpt: {
-      vi: "AI đang trở thành một phần quen thuộc trong quy trình thiết kế hiện đại, hỗ trợ kỹ thuật để đội ngũ tập trung vào chiến lược, trải nghiệm và chất lượng tổng thể.",
-      en: "AI is becoming familiar in modern design workflows, helping teams move from manual tasks to strategy, experience and overall quality.",
-    },
-    image: {
-      src: "/assets/portfolio/home/1759489307168-5aba5c97eb.png",
-      alt: { vi: "Designer và AI", en: "Designer and AI" },
-    },
-  },
-  {
-    date: "23-04-2026",
-    title: {
-      vi: "AI và thời trang 2026: Sự cộng tác giữa sức mạnh thuật toán và trực giác con người",
-      en: "AI And Fashion 2026: Algorithms Meet Human Intuition",
-    },
-    excerpt: {
-      vi: "Trong nhiều phòng thiết kế, ý tưởng đầu tiên có thể đến từ một dòng lệnh, một bảng dữ liệu hoặc một mô phỏng do AI đề xuất chỉ trong vài giây.",
-      en: "In many design rooms, first ideas now come from prompts, datasets or AI simulations proposed in seconds.",
-    },
-    image: {
-      src: "/assets/portfolio/home/hinh-anh-23-04-2026-luc-16-39-9ae2ce6a1c.jpg",
-      alt: { vi: "AI và thời trang", en: "AI and fashion" },
-    },
-  },
-  {
-    date: "23-04-2026",
-    title: {
-      vi: "10 ứng dụng AI đột phá trong các chiến dịch marketing hiện nay",
-      en: "10 Breakthrough AI Applications In Marketing Campaigns",
-    },
-    excerpt: {
-      vi: "AI đang thay đổi cách các thương hiệu phân tích dữ liệu, phát triển ý tưởng, cá nhân hóa thông điệp và đo lường hiệu quả chiến dịch.",
-      en: "AI is changing how brands analyze data, develop ideas, personalize messages and measure campaign performance.",
-    },
-    image: {
-      src: "/assets/portfolio/blog/hinh-anh-23-04-2026-luc-14-06-5d63094b40.jpg",
-      alt: { vi: "Ứng dụng AI trong marketing", en: "AI in marketing" },
-    },
-  },
-  {
-    date: "22-04-2026",
-    title: {
-      vi: "Khám phá ngay 10 công cụ AI tạo hình ảnh tốt nhất 2026",
-      en: "Explore 10 Leading AI Image Tools In 2026",
-    },
-    excerpt: {
-      vi: "Các công cụ tạo hình ảnh bằng AI mở ra quy trình sáng tạo nhanh hơn cho concept, moodboard và thử nghiệm hình ảnh thương hiệu.",
-      en: "AI image tools unlock faster creative workflows for concepts, moodboards and brand visual experiments.",
-    },
-    image: {
-      src: "/assets/portfolio/blog/tao-anh-bang-ai-ee4f8a976d.png",
-      alt: { vi: "Công cụ tạo ảnh bằng AI", en: "AI image tools" },
-    },
-  },
-  {
-    date: "17-04-2026",
-    title: {
-      vi: "Amazon 2026: AI đang thay đổi cách quảng cáo thế nào?",
-      en: "Amazon 2026: How AI Is Changing Advertising",
-    },
-    excerpt: {
-      vi: "Từ tối ưu nội dung đến gợi ý quảng cáo, AI đang trở thành cánh tay đắc lực cho người bán hàng trên các sàn thương mại điện tử.",
-      en: "From content optimization to ad recommendations, AI is becoming a practical assistant for ecommerce sellers.",
-    },
-    image: {
-      src: "/assets/portfolio/blog/amazon-a8a04d6dce.jpg",
-      alt: { vi: "Amazon và AI", en: "Amazon and AI" },
-    },
-  },
-];
 
 export const credentials: readonly CredentialItem[] = [
   {

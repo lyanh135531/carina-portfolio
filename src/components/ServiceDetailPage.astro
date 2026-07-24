@@ -2,7 +2,6 @@
 import BaseLayout from "@/components/BaseLayout.astro";
 import type { Locale } from "@/data/site";
 import type { ServiceDetail } from "@/data/serviceDetails";
-import { getServiceDetailPath } from "@/data/serviceDetails";
 
 type Props = Readonly<{
   locale: Locale;
@@ -10,8 +9,6 @@ type Props = Readonly<{
 }>;
 
 const { locale, detail } = Astro.props;
-const alternateLocale: Locale = locale === "vi" ? "en" : "vi";
-const alternatePath = getServiceDetailPath(alternateLocale, detail);
 const pageTitle = `${detail.title[locale]} | Portfolio`;
 const isRetouchPage = detail.id === "digital-image-retouch";
 const isConsultingPage = detail.id === "integrated-marketing";
@@ -59,7 +56,6 @@ const consultingColumns = [
   pageId="services"
   title={pageTitle}
   description={detail.intro[locale]}
-  alternatePath={alternatePath}
 >
   <article
     class:list={[

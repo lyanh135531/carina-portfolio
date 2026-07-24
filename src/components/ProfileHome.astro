@@ -1,6 +1,5 @@
 ---
 import type { Locale } from "@/data/site";
-import { assets } from "@/data/site";
 import {
   profileCapabilities,
   profileClientLogos,
@@ -18,8 +17,6 @@ const { locale } = Astro.props;
 ---
 
 <section class="profile-hero" data-hero>
-  <img class="profile-hero__image" src={assets.homeCampaignA} alt="" loading="eager" data-hero-image />
-  <div class="profile-hero__scrim"></div>
   <div class="profile-hero__inner">
     <div class="profile-hero__content reveal">
       <p class="profile-hero__eyebrow">{profileIntro.eyebrow[locale]}</p>

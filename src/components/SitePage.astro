@@ -1,18 +1,14 @@
 ---
 import BaseLayout from "@/components/BaseLayout.astro";
 import CardGrid from "@/components/CardGrid.astro";
-import Hero from "@/components/Hero.astro";
 import ProfileHome from "@/components/ProfileHome.astro";
 import PortfolioSection from "@/components/PortfolioSection.astro";
-import SectionTitle from "@/components/SectionTitle.astro";
 import type { Locale, PageId } from "@/data/site";
 import {
   aboutBlocks,
-  assets,
-  blogPosts,
   credentials,
+  getLocalizedPath,
   pageMeta,
-  services,
 } from "@/data/site";
 
 type Props = Readonly<{
@@ -81,23 +77,32 @@ const page = pageMeta[pageId];
   }
 
   {
-    pageId === "blog" && (
-      <>
-        <Hero title={page.title[locale]} image={assets.cosmicHero} variant="compact" />
-        <h1 class="mobile-page-title">{page.mobileTitle[locale]}</h1>
-        <section class="content-section content-section--blog-list">
-          <CardGrid items={blogPosts} locale={locale} variant="blog" />
-        </section>
-      </>
-    )
-  }
-
-  {
     pageId === "contact" && (
       <>
         <section class="page-heading page-heading--contact reveal">
           <h1>{page.title[locale]}</h1>
           <p>{page.kicker[locale]}</p>
+        </section>
+        <section class="contact-page content-section reveal" aria-labelledby="contact-page-title">
+          <div class="contact-page__intro">
+            <p class="eyebrow">{locale === "vi" ? "BẮT ĐẦU MỘT DỰ ÁN" : "START A PROJECT"}</p>
+            <h2 id="contact-page-title">
+              {locale === "vi" ? "Bạn đang có một brief cần biến thành kế hoạch rõ ràng?" : "Have a brief that needs a clear delivery plan?"}
+            </h2>
+            <p>
+              {locale === "vi"
+                ? "Hãy xem các dự án đã chọn và gửi một brief ngắn để bắt đầu cuộc trao đổi phù hợp."
+                : "Explore selected work, then share a short brief to start the right conversation."}
+            </p>
+          </div>
+          <div class="contact-page__actions">
+            <a class="profile-button profile-button--primary" href={getLocalizedPath(locale, "/services/")}>
+              {locale === "vi" ? "Xem Portfolio" : "View Portfolio"}
+            </a>
+            <a class="profile-button" href={getLocalizedPath(locale, "/about/")}>
+              {locale === "vi" ? "Tìm hiểu cách làm việc" : "See how I work"}
+            </a>
+          </div>
         </section>
       </>
     )

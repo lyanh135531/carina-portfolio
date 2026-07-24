@@ -1,5 +1,4 @@
 import type { ImageAsset, Locale, LocalizedText, ServiceId } from "@/data/site";
-import { getLocalizedPath } from "@/data/site";
 
 type ServiceDetailSection = Readonly<{
   title: LocalizedText;
@@ -462,8 +461,6 @@ const serviceDetailSlugMap = buildServiceDetailSlugMap();
 
 
 
-export const getServiceDetailPath = (locale: Locale, detail: ServiceDetail): string =>
-  getLocalizedPath(locale, `/${detail.canonicalSlug}`);
 
 export const getServiceDetailStaticPaths = (): readonly ServiceDetailStaticPath[] =>
   serviceDetails.flatMap((detail) =>

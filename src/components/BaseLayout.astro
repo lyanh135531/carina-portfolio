@@ -10,7 +10,6 @@ type Props = Readonly<{
   pageId: PageId;
   title?: string;
   description?: string;
-  alternatePath?: string;
 }>;
 
 type FooterColumn = Readonly<{
@@ -24,7 +23,7 @@ type FooterContent = Readonly<{
   legal: string;
 }>;
 
-const { locale, pageId, title, description, alternatePath } = Astro.props;
+const { locale, pageId, title, description } = Astro.props;
 const meta = pageMeta[pageId];
 const documentTitle = title ?? meta.title[locale];
 const documentDescription = description ?? "Portfolio overview for an Account Executive and Producer profile.";
@@ -92,7 +91,7 @@ const footerContent = footerContentByLocale[locale];
   </head>
   <body data-page={pageId}>
     <div class="scroll-progress" data-scroll-progress style="position: fixed; top: 0; left: 0; height: 3px; background: var(--color-yellow); z-index: 1000; width: 0%; transform-origin: 0 50%;"></div>
-    <Header locale={locale} pageId={pageId} alternatePath={alternatePath} />
+    <Header pageId={pageId} />
     <main>
       <slot />
     </main>
