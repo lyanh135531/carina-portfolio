@@ -27,6 +27,7 @@ const { locale, pageId, title, description } = Astro.props;
 const meta = pageMeta[pageId];
 const documentTitle = title ?? meta.title[locale];
 const documentDescription = description ?? "Portfolio overview for an Account Executive and Producer profile.";
+const socialImageUrl = new URL("/og.png", Astro.site ?? Astro.url).toString();
 const footerContentByLocale: Readonly<Record<Locale, FooterContent>> = {
   vi: {
     columns: [
@@ -80,11 +81,21 @@ const footerContent = footerContentByLocale[locale];
     />
     <title>{documentTitle}</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta property="og:image" content="/favicon.png" />
+    <meta name="theme-color" content="#fff7e8" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={documentTitle} />
+    <meta property="og:description" content={documentDescription} />
+    <meta property="og:image" content={socialImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={documentTitle} />
+    <meta name="twitter:description" content={documentDescription} />
+    <meta name="twitter:image" content={socialImageUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;700&family=Varela+Round&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..700,0..100,0..1&family=Nunito+Sans:opsz,wght@6..12,400..800&display=swap"
       rel="stylesheet"
     />
     <ClientRouter />
